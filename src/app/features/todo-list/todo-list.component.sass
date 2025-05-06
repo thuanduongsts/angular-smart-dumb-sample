@@ -1,0 +1,12 @@
+@use 'typography' as *
+@use 'colors'
+@use 'fonts'
+
+:host
+  padding: 32px 80px
+  display: block
+
+.page-title
+  @extend %display-md
+  color: colors.$on-primary-container
+  font-family: fonts.$minion-pro
