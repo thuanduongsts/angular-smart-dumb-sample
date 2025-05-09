@@ -1,3 +1,24 @@
 <h1 class="page-title">Catalog An Asset</h1>
 
-<p>Todo list items here</p>
+<h3>Button Controls</h3>
+<div>
+  <div style="display: flex; gap: 16px">
+    <p>Button</p>
+    <app-button> Button </app-button>
+    <app-button variant="secondary"> Button </app-button>
+    <app-button variant="tertiary"> Button </app-button>
+    <app-button variant="error"> Button </app-button>
+  </div>
+
+  <div style="display: flex; gap: 16px">
+    <p>Outline</p>
+    <app-button [outlined]="true"> Button </app-button>
+    <app-button [outlined]="true" variant="secondary"> Button </app-button>
+    <app-button [outlined]="true" variant="tertiary"> Button </app-button>
+    <app-button [outlined]="true" variant="error"> Button </app-button>
+  </div>
+</div>
+
+<h3>Text Input Controls</h3>
+<app-text-input [(ngModel)]="textInput" placeholder="Enter somthing" />
+<p>Your text: {{ textInput() }}</p>
