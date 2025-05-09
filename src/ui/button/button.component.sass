@@ -1,0 +1,42 @@
+@use 'sass:map'
+@use 'colors'
+@use 'typography' as *
+
+$button-list: (primary: colors.$primary, secondary: colors.$p-secondary-30, tertiary: colors.$p-tertiary-50, error: colors.$error)
+$border-list: (secondary: colors.$p-primary-25,tertiary: colors.$p-tertiary-40)
+
+:host.disabled
+  cursor: not-allowed
+  pointer-events: none
+  opacity: 0.8
+
+button
+  @extend %label-lg
+  display: inline-flex
+  width: inherit
+  justify-content: center
+  align-items: center
+  gap: 8px
+  padding: 0 24px
+  cursor: pointer
+  border-radius: 8px
+  border: 0
+
+  &.none
+    background: transparent
+    padding: 0
+
+  @each $b-name, $b-value in $button-list
+    &.#{$b-name}
+      background-color: map.get($button-list, $b-name)
+      color: white
+
+      @if map.get($border-list, $b-name)
+        outline: 1px solid map.get($border-list, $b-name)
+
+  @each $b-name, $b-value in $button-list
+    &.#{$b-name}.outlined
+      background-color: white
+      color: map.get($button-list, $b-name)
+      outline: 1px solid map.get($button-list, $b-name)
+
