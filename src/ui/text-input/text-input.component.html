@@ -1,0 +1,8 @@
+<input
+  [placeholder]="placeholder()"
+  [ngModel]="value()"
+  [disabled]="isDisabled()"
+  (ngModelChange)="updateValue($event)"
+  [class.has-suffix]="isShowClear() && value() && !isDisabled()"
+  [attr.aria-required]="isRequired()"
+/>
