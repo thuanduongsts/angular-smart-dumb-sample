@@ -1,24 +1,25 @@
 <h1 class="page-title">Todo App</h1>
 
-<h3>Button Controls</h3>
-<div>
-  <div style="display: flex; gap: 16px">
-    <p>Button</p>
-    <app-button> Button </app-button>
-    <app-button variant="secondary"> Button </app-button>
-    <app-button variant="tertiary"> Button </app-button>
-    <app-button variant="error"> Button </app-button>
-  </div>
-
-  <div style="display: flex; gap: 16px">
-    <p>Outline</p>
-    <app-button [outlined]="true"> Button </app-button>
-    <app-button [outlined]="true" variant="secondary"> Button </app-button>
-    <app-button [outlined]="true" variant="tertiary"> Button </app-button>
-    <app-button [outlined]="true" variant="error"> Button </app-button>
-  </div>
+<div class="todo-header">
+  <app-button variant="primary" (click)="openDialog()">+ Add a task</app-button>
 </div>
 
-<h3>Text Input Controls</h3>
-<app-text-input [(ngModel)]="textInput" placeholder="Enter somthing" />
-<p>Your text: {{ textInput() }}</p>
+<div class="task-section">
+  <h3>Tasks</h3>
+  <app-task-list
+    [tasks]="activeTasks()"
+    (toggleCompleted)="onToggleCompleted($event)"
+    (toggleImportant)="onToggleImportant($event)"
+    (edit)="onEditTask($event)"
+  />
+</div>
+
+<div class="task-section completed">
+  <h3>Completed</h3>
+  <app-task-list
+    [tasks]="completedTasks()"
+    (toggleCompleted)="onToggleCompleted($event)"
+    (toggleImportant)="onToggleImportant($event)"
+    (edit)="onEditTask($event)"
+  />
+</div>

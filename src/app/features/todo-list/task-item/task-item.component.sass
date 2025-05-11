@@ -1,0 +1,26 @@
+.task-item
+  display: flex
+  align-items: center
+  gap: 12px
+  padding: 8px 0
+
+  &.completed .task-title
+    text-decoration: line-through
+    color: #aaa
+
+  .task-title
+    cursor: pointer
+    flex: 1
+    font-size: 16px
+
+  .star-btn
+    padding: 0 8px
+    background: none
+    border: none
+    cursor: pointer
+    font-size: 20px
+
+    .filled
+      color: #FFD600
+    span:not(.filled)
+      color: #bbb 

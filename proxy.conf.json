@@ -1,0 +1,11 @@
+{
+  "/api/v1": {
+    "target": "https://68206ca4259dad2655ac8170.mockapi.io/api/v1",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/v1": ""
+    }
+  }
+} 
