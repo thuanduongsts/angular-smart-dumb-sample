@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Task } from '@core/task.model';
+import { TaskModel } from 'src/app/common/models/task.model';
 import { ButtonComponent } from '../../../../ui/button/button.component';
 
 @Component({
@@ -10,8 +10,8 @@ import { ButtonComponent } from '../../../../ui/button/button.component';
   imports: [ButtonComponent],
 })
 export class TaskItemComponent {
-  public readonly task = input<Task>();
+  public readonly task = input<TaskModel>();
   public readonly toggleCompleted = output<void>();
   public readonly toggleImportant = output<void>();
   public readonly edit = output<void>();
-} 
+}

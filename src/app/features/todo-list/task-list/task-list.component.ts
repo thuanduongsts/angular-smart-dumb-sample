@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { Task } from '@core/task.model';
+import { TaskModel } from '@common/models/task.model';
+
 import { TaskItemComponent } from '../task-item/task-item.component';
 
 @Component({
@@ -7,11 +8,11 @@ import { TaskItemComponent } from '../task-item/task-item.component';
   standalone: true,
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.sass',
-  imports: [TaskItemComponent],
+  imports: [TaskItemComponent]
 })
 export class TaskListComponent {
-  public readonly tasks = input<Task[]>([]);
+  public readonly tasks = input<TaskModel[]>([]);
   public readonly toggleCompleted = output<number>();
   public readonly toggleImportant = output<number>();
   public readonly edit = output<number>();
-} 
+}
