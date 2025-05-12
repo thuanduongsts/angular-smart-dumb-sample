@@ -6,17 +6,17 @@ import { TaskModel } from './model/task.model';
 
 @Injectable()
 export class TodoListService {
-  public constructor(private _api: TaskApi) {}
+  public constructor(private api: TaskApi) {}
 
   public getTasks(): Observable<TaskModel[]> {
-    return this._api.getTasks();
+    return this.api.getTasks();
   }
 
   public updateCompleted(id: string, completed: boolean): Observable<unknown> {
-    return this._api.updateTask(id, { completed });
+    return this.api.updateTask(id, { completed });
   }
 
   public updateImportant(id: string, important: boolean): Observable<unknown> {
-    return this._api.updateTask(id, { important });
+    return this.api.updateTask(id, { important });
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TaskModel } from '@common/models/task.model';
 import { Observable } from 'rxjs';
 import { TaskDAO } from './task.dao';
 
@@ -21,7 +22,7 @@ export class TaskApi {
     return this.httpClient.patch<unknown>(`${apiUrl}/${id}`, body);
   }
 
-  public delete(id: string): Observable<unknown> {
+  public deleteTask(id: string): Observable<unknown> {
     return this.httpClient.delete<unknown>(`${apiUrl}/${id}`);
   }
 }

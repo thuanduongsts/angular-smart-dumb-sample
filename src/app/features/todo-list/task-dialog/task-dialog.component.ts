@@ -9,7 +9,6 @@ import { TextAreaComponent } from '../../../../ui/text-area/text-area.component'
 import { SpinnerComponent } from '../../../../ui/spinner/spinner.component';
 
 @Component({
-  selector: 'app-task-dialog',
   standalone: true,
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',

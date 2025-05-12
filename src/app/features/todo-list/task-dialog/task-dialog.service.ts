@@ -22,6 +22,6 @@ export class TaskDialogService {
   }
 
   public deleteTask(id: string): Observable<unknown> {
-    return this.api.delete(id);
+    return this.api.deleteTask(id);
   }
 }

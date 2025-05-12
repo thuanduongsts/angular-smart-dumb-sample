@@ -12,7 +12,7 @@
     <div class="dialog-actions">
       @if (taskId()) {
         <app-button variant="error" (click)="deleteTask()" type="button" [disabled]="saving() || deleting()">
-          @if (saving() || deleting()) {
+          @if (deleting()) {
             <app-spinner />
           } @else {
             Delete
