@@ -1,32 +1,24 @@
-<!-- Task Dialog Component -->
-<div class="task-dialog">
-  <h2>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h2>
-  @if (!loading) {
-    <form (ngSubmit)="onSave()">
-      <app-text-input
-        [(ngModel)]="title"
-        name="title"
-        placeholder="Title"
-        isRequired="true"
-      />
-      <app-text-input
-        [(ngModel)]="description"
-        name="description"
-        placeholder="Description"
-      />
+<form [formGroup]="form">
+  <div class="task-dialog">
+    <h2>{{ isEdit() ? 'Edit Task' : 'Add Task' }}</h2>
+
+    @if (!loading) {
+      <app-text-input formControlName="title" placeholder="Title" isRequired="true" />
+      <app-text-input formControlName="description" placeholder="Description" />
+
       <label class="important-checkbox">
-        <input type="checkbox" [(ngModel)]="important" name="important" />
+        <input type="checkbox" formControlName="important" name="important" />
         <span>Mark as important</span>
       </label>
       <div class="dialog-actions">
-        @if (isEdit) {
+        @if (isEdit()) {
           <app-button variant="error" (click)="onDelete()" type="button">Delete</app-button>
         }
-        <app-button variant="secondary" (click)="onCancel()" type="button">Cancel</app-button>
-        <app-button variant="primary" type="submit">Save</app-button>
+        <app-button outlined="true" (click)="onCancel()" type="button">Cancel</app-button>
+        <app-button variant="primary" (click)="onSave()">Save</app-button>
       </div>
-    </form>
-  } @else {
-    <div class="loading">Loading...</div>
-  }
-</div> 
+    } @else {
+      <div class="loading">Loading...</div>
+    }
+  </div>
+</form>

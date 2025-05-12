@@ -1,33 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Task } from '@core/task.model';
+import { map, Observable } from 'rxjs';
+import { TaskModel } from '@common/models/task.model';
 import { TaskApi } from '@core/task.api';
 
 @Injectable()
 export class TodoListService {
-  public constructor(private _api: TaskApi) {}
+  public constructor(private taskApi: TaskApi) {}
 
-  public getTasks(): Observable<Task[]> {
-    return this._api.get();
+  public getTasks(): Observable<TaskModel[]> {
+    return this.taskApi.getTasks();
   }
 
-  public updateCompleted(id: number, completed: boolean): Observable<void> {
-    return this._api.update(id, { completed });
+  public getDetails(id: number): Observable<TaskModel> {
+    return this.taskApi.getTasks().pipe(map(tasks => tasks.find(t => t.id === id)!));
   }
 
-  public updateImportant(id: number, important: boolean): Observable<void> {
-    return this._api.update(id, { important });
+  public updateCompleted(id: number, completed: boolean): Observable<unknown> {
+    return this.taskApi.edit(id, { completed });
   }
 
-  public createTask(task: Omit<Task, 'id'>): Observable<void> {
-    return this._api.create(task);
+  public updateImportant(id: number, important: boolean): Observable<unknown> {
+    return this.taskApi.edit(id, { important });
   }
 
-  public deleteTask(id: number): Observable<void> {
-    return this._api.delete(id);
+  public createTask(task: Omit<TaskModel, 'id'>): Observable<unknown> {
+    return this.taskApi.add(task);
   }
 
-  public updateTask(id: number, body: Partial<Omit<Task, 'id'>>): Observable<void> {
-    return this._api.update(id, body);
+  public deleteTask(id: number): Observable<unknown> {
+    return this.taskApi.remove(id);
   }
-} 
+
+  public updateTask(id: number, body: Partial<Omit<TaskModel, 'id'>>): Observable<unknown> {
+    return this.taskApi.edit(id, body);
+  }
+}
