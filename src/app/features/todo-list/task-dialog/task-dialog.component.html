@@ -1,32 +1,33 @@
-<!-- Task Dialog Component -->
-<div class="task-dialog">
-  <h2>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h2>
-  @if (!loading) {
-    <form (ngSubmit)="onSave()">
-      <app-text-input
-        [(ngModel)]="title"
-        name="title"
-        placeholder="Title"
-        isRequired="true"
-      />
-      <app-text-input
-        [(ngModel)]="description"
-        name="description"
-        placeholder="Description"
-      />
-      <label class="important-checkbox">
-        <input type="checkbox" [(ngModel)]="important" name="important" />
-        <span>Mark as important</span>
-      </label>
-      <div class="dialog-actions">
-        @if (isEdit) {
-          <app-button variant="error" (click)="onDelete()" type="button">Delete</app-button>
+<h2>{{ taskId() ? 'Edit Task' : 'Add Task' }}</h2>
+<div class="close" (click)="closeDialog()">&times;</div>
+
+@if (!fetching()) {
+  <form [formGroup]="form" (ngSubmit)="submitTask()">
+    <app-text-input formControlName="title" placeholder="Enter title" label="Title" isRequired="true" />
+    <app-text-area formControlName="description" placeholder="Enter description" label="Description" />
+    <label class="important-checkbox">
+      <input type="checkbox" formControlName="important" name="important" />
+      <span>Mark as important</span>
+    </label>
+    <div class="dialog-actions">
+      @if (taskId()) {
+        <app-button variant="error" (click)="deleteTask()" type="button" [disabled]="saving() || deleting()">
+          @if (saving() || deleting()) {
+            <app-spinner />
+          } @else {
+            Delete
+          }
+        </app-button>
+      }
+      <app-button variant="primary" type="submit" [disabled]="!form.dirty || form.invalid || saving()">
+        @if (saving()) {
+          <app-spinner />
+        } @else {
+          Save
         }
-        <app-button variant="secondary" (click)="onCancel()" type="button">Cancel</app-button>
-        <app-button variant="primary" type="submit">Save</app-button>
-      </div>
-    </form>
-  } @else {
-    <div class="loading">Loading...</div>
-  }
-</div> 
+      </app-button>
+    </div>
+  </form>
+} @else {
+  <app-spinner />
+}

@@ -12,6 +12,7 @@ import { BaseControlAccessorComponent } from '../base-control-accessor.directive
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: TextInputComponent, multi: true }]
 })
 export class TextInputComponent extends BaseControlAccessorComponent<string> {
+  public readonly label = input<string>('');
   public readonly placeholder = input<string>('');
   public readonly isShowClear = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
   public readonly isRequired = input<boolean, StrOrBool>(false, { transform: booleanAttribute });

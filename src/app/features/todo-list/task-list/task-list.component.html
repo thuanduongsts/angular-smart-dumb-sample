@@ -1,6 +1,7 @@
-<!-- Task List Dumb Component -->
-<div class="task-list">
-  <div class="task-list-scroll">
+@if (loading()) {
+  <app-spinner />
+} @else {
+  <div class="task-list">
     @for (task of tasks(); track task.id) {
       <app-task-item
         [task]="task"
@@ -10,4 +11,4 @@
       />
     }
   </div>
-</div> 
+}

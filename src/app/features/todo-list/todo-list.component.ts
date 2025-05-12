@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
-import { Task } from '@core/task.model';
+import { ChangeDetectionStrategy, Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Dialog } from '@angular/cdk/dialog';
+
 import { TodoListService } from './todo-list.service';
 import { TaskListComponent } from './task-list/task-list.component';
-import { Dialog } from '@angular/cdk/dialog';
 import { ButtonComponent } from '../../../ui/button/button.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { TaskModel } from './model/task.model';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,59 +16,61 @@ import { TaskDialogComponent } from './task-dialog/task-dialog.component';
   imports: [TaskListComponent, ButtonComponent],
   providers: [TodoListService]
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
   readonly #service = inject(TodoListService);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #dialog = inject(Dialog);
+  readonly #tasks = signal<TaskModel[]>([]);
+  readonly #loading = signal<boolean>(true);
 
-  public readonly tasks = signal<Task[]>([]);
+  public readonly activeTasks = computed(() => this.#tasks().filter(t => !t.completed));
+  public readonly completedTasks = computed(() => this.#tasks().filter(t => t.completed));
+  public readonly loading = this.#loading.asReadonly();
 
-  public readonly activeTasks = computed(() => this.tasks().filter(t => !t.completed));
-  public readonly completedTasks = computed(() => this.tasks().filter(t => t.completed));
-
-  public constructor() {
-    this.reloadTasks();
+  public ngOnInit(): void {
+    this.loadTasks();
   }
 
-  public reloadTasks(): void {
-    this.#service.getTasks().pipe(takeUntilDestroyed()).subscribe(tasks => {
-      this.tasks.set(tasks);
-    });
-  }
-
-  public openDialog(taskId?: number): void {
-    const ref = this.#dialog.open(TaskDialogComponent, {
-      data: { taskId },
-      width: '400px',
-      disableClose: true,
-    });
-    ref.closed.subscribe((result: any) => {
-      if (!result) return;
-      if (result.type === 'save') {
-        if (taskId) {
-          this.#service.updateTask(taskId, result.data).subscribe(() => this.reloadTasks());
-        } else {
-          const { id, ...body } = result.data;
-          this.#service.createTask(body).subscribe(() => this.reloadTasks());
+  public loadTasks(): void {
+    this.#service
+      .getTasks()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe({
+        next: tasks => {
+          this.#tasks.set(tasks);
+          this.#loading.set(false);
+        },
+        error: () => {
+          this.#loading.set(false);
         }
-      } else if (result.type === 'delete') {
-        this.#service.deleteTask(result.data).subscribe(() => this.reloadTasks());
+      });
+  }
+
+  public openDialog(id?: string): void {
+    const dialogRef = this.#dialog.open(TaskDialogComponent, {
+      data: { id },
+      width: '600px'
+    });
+    dialogRef.closed.subscribe(() => this.loadTasks());
+  }
+
+  public handleToggleCompleted(id: string): void {
+    const task = this.#tasks().find(t => t.id === id);
+    if (!task) return;
+    this.#service.updateCompleted(id, !task.completed).subscribe({
+      next: () => {
+        this.#tasks.update(tasks => tasks.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)));
       }
     });
   }
 
-  public onToggleCompleted(id: number): void {
-    const task = this.tasks().find(t => t.id === id);
+  public handleToggleImportant(id: string): void {
+    const task = this.#tasks().find(t => t.id === id);
     if (!task) return;
-    this.#service.updateCompleted(id, !task.completed).subscribe(() => this.reloadTasks());
-  }
-
-  public onToggleImportant(id: number): void {
-    const task = this.tasks().find(t => t.id === id);
-    if (!task) return;
-    this.#service.updateImportant(id, !task.important).subscribe(() => this.reloadTasks());
-  }
-
-  public onEditTask(id: number): void {
-    this.openDialog(id);
+    this.#service.updateImportant(id, !task.important).subscribe({
+      next: () => {
+        this.#tasks.update(tasks => tasks.map(t => (t.id === id ? { ...t, important: !t.important } : t)));
+      }
+    });
   }
 }

@@ -1,17 +1,16 @@
-<label for="input">
+<label for="textarea">
   {{ label() }}
   @if (isRequired()) {
     <span class="required">*</span>
   }
 </label>
 
-<input
-  id="input"
+<textarea
+  id="textarea"
   [placeholder]="placeholder()"
   [ngModel]="value()"
+  [rows]="rows()"
   [disabled]="isDisabled()"
   [required]="isRequired()"
   (ngModelChange)="updateValue($event)"
-  [class.has-suffix]="isShowClear() && value() && !isDisabled()"
-  [attr.aria-required]="isRequired()"
-/>
+></textarea>

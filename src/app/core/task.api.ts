@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Task } from './task.model';
+import { TaskDAO } from './task.dao';
 
 const apiUrl = '/api/v1/tasks';
 
 @Injectable({ providedIn: 'root' })
 export class TaskApi {
-  public constructor(private _http: HttpClient) {}
+  public constructor(private httpClient: HttpClient) {}
 
-  public get(): Observable<Task[]> {
-    return this._http.get<Task[]>(apiUrl);
+  public getTasks(): Observable<TaskDAO[]> {
+    return this.httpClient.get<TaskDAO[]>(apiUrl);
   }
 
-  public create(input: Omit<Task, 'id'>): Observable<void> {
-    return this._http.post<void>(apiUrl, input);
+  public createTask(input: Omit<TaskDAO, 'id'>): Observable<unknown> {
+    return this.httpClient.post<unknown>(apiUrl, input);
   }
 
-  public update(id: number, body: Partial<Omit<Task, 'id'>>): Observable<void> {
-    return this._http.patch<void>(`${apiUrl}/${id}`, body);
+  public updateTask(id: string, body: Partial<Omit<TaskDAO, 'id'>>): Observable<unknown> {
+    return this.httpClient.patch<unknown>(`${apiUrl}/${id}`, body);
   }
 
-  public delete(id: number): Observable<void> {
-    return this._http.delete<void>(`${apiUrl}/${id}`);
+  public delete(id: string): Observable<unknown> {
+    return this.httpClient.delete<unknown>(`${apiUrl}/${id}`);
   }
-} 
+}

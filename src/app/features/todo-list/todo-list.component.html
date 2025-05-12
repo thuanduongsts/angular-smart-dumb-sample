@@ -4,22 +4,24 @@
   <app-button variant="primary" (click)="openDialog()">+ Add a task</app-button>
 </div>
 
+<h3>Tasks</h3>
 <div class="task-section">
-  <h3>Tasks</h3>
   <app-task-list
     [tasks]="activeTasks()"
-    (toggleCompleted)="onToggleCompleted($event)"
-    (toggleImportant)="onToggleImportant($event)"
-    (edit)="onEditTask($event)"
+    [loading]="loading()"
+    (toggleCompleted)="handleToggleCompleted($event)"
+    (toggleImportant)="handleToggleImportant($event)"
+    (edit)="openDialog($event)"
   />
 </div>
 
+<h3>Completed</h3>
 <div class="task-section completed">
-  <h3>Completed</h3>
   <app-task-list
     [tasks]="completedTasks()"
-    (toggleCompleted)="onToggleCompleted($event)"
-    (toggleImportant)="onToggleImportant($event)"
-    (edit)="onEditTask($event)"
+    [loading]="loading()"
+    (toggleCompleted)="handleToggleCompleted($event)"
+    (toggleImportant)="handleToggleImportant($event)"
+    (edit)="openDialog($event)"
   />
 </div>

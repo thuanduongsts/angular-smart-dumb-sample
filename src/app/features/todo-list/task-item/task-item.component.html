@@ -1,19 +1,5 @@
-<!-- Task Item Dumb Component -->
-<div class="task-item" [class.completed]="task()?.completed">
-  <input
-    type="checkbox"
-    [checked]="task()?.completed"
-    (change)="toggleCompleted.emit()"
-    aria-label="Mark as completed"
-  />
-  <span class="task-title" (click)="edit.emit()">{{ task()?.title }}</span>
-  <app-button
-    variant="tertiary"
-    [outlined]="!task()?.important"
-    (click)="toggleImportant.emit()"
-    class="star-btn"
-    aria-label="Mark as important"
-  >
-    <span [class.filled]="task()?.important">★</span>
-  </app-button>
-</div> 
+<input type="checkbox" [checked]="task()?.completed" (change)="toggleCompleted.emit()" aria-label="Mark as completed" />
+<span class="task-title" (click)="edit.emit()">{{ task()?.title }}</span>
+<button variant="tertiary" (click)="toggleImportant.emit()" class="star-btn" aria-label="Mark as important">
+  <span [class.filled]="task()?.important">★</span>
+</button>
