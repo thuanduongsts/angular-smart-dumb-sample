@@ -1,19 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Dialog } from '@angular/cdk/dialog';
+import { filter, take } from 'rxjs';
 
 import { TodoListService } from './todo-list.service';
 import { TaskListComponent } from './task-list/task-list.component';
 import { ButtonComponent } from '../../../ui/button/button.component';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { TaskModel } from './model/task.model';
+import { SpinnerComponent } from "../../../ui/spinner/spinner.component";
+import { TaskDialogCloseMessage } from './model/task-dialog-close-message.model';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskListComponent, ButtonComponent],
+  imports: [TaskListComponent, ButtonComponent, SpinnerComponent],
   providers: [TodoListService]
 })
 export class TodoListComponent implements OnInit {
@@ -32,6 +35,7 @@ export class TodoListComponent implements OnInit {
   }
 
   public loadTasks(): void {
+    this.#loading.set(true);
     this.#service
       .getTasks()
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -46,15 +50,16 @@ export class TodoListComponent implements OnInit {
       });
   }
 
-  public openDialog(id?: string): void {
-    const dialogRef = this.#dialog.open(TaskDialogComponent, {
+  public openDialog(id?: ID): void {
+    const dialogRef = this.#dialog.open<TaskDialogCloseMessage>(TaskDialogComponent, {
       data: { id },
       width: '600px'
     });
-    dialogRef.closed.subscribe(() => this.loadTasks());
+
+    dialogRef.closed.pipe(take(1), filter(Boolean)).subscribe((message: TaskDialogCloseMessage) => this.handleDialogClose(message));
   }
 
-  public handleToggleCompleted(id: string): void {
+  public handleToggleCompleted(id: ID): void {
     const task = this.#tasks().find(t => t.id === id);
     if (!task) return;
     this.#service.updateCompleted(id, !task.completed).subscribe({
@@ -64,7 +69,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public handleToggleImportant(id: string): void {
+  public handleToggleImportant(id: ID): void {
     const task = this.#tasks().find(t => t.id === id);
     if (!task) return;
     this.#service.updateImportant(id, !task.important).subscribe({
@@ -72,5 +77,19 @@ export class TodoListComponent implements OnInit {
         this.#tasks.update(tasks => tasks.map(t => (t.id === id ? { ...t, important: !t.important } : t)));
       }
     });
+  }
+
+  public handleDialogClose(message: TaskDialogCloseMessage): void {
+    switch (message.type) {
+      case 'created':
+        this.loadTasks();
+        break;
+      case 'updated':
+        this.#tasks.update(tasks => tasks.map(t => (t.id === message.task.id ? message.task : t)));
+        break;
+      case 'deleted':
+        this.#tasks.update(tasks => tasks.filter(t => t.id !== message.task.id));
+        break;
+    }
   }
 }

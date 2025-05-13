@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TaskModel } from '@common/models/task.model';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TaskDAO } from './task.dao';
 
@@ -14,15 +13,15 @@ export class TaskApi {
     return this.httpClient.get<TaskDAO[]>(apiUrl);
   }
 
-  public createTask(input: Omit<TaskDAO, 'id'>): Observable<unknown> {
-    return this.httpClient.post<unknown>(apiUrl, input);
+  public createTask(input: Omit<TaskDAO, 'id'>): Observable<TaskDAO> {
+    return this.httpClient.post<TaskDAO>(apiUrl, input);
   }
 
-  public updateTask(id: string, body: Partial<Omit<TaskDAO, 'id'>>): Observable<unknown> {
-    return this.httpClient.patch<unknown>(`${apiUrl}/${id}`, body);
+  public updateTask(id: ID, body: Partial<Omit<TaskDAO, 'id'>>): Observable<TaskDAO> {
+    return this.httpClient.patch<TaskDAO>(`${apiUrl}/${id}`, body);
   }
 
-  public deleteTask(id: string): Observable<unknown> {
+  public deleteTask(id: ID): Observable<unknown> {
     return this.httpClient.delete<unknown>(`${apiUrl}/${id}`);
   }
 }

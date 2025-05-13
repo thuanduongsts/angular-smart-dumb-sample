@@ -1,5 +1,5 @@
 export interface TaskDAO {
-  id: string;
+  id: ID;
   title: string;
   description: string;
   completed: boolean;

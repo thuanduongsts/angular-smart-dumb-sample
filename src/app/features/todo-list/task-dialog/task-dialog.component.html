@@ -1,16 +1,24 @@
-<h2>{{ taskId() ? 'Edit Task' : 'Add Task' }}</h2>
-<div class="close" (click)="closeDialog()">&times;</div>
-
 @if (!fetching()) {
+  <h2>{{ id ? 'Edit Task' : 'Add Task' }}</h2>
+  <div class="close" (click)="closeDialog()">&times;</div>
   <form [formGroup]="form" (ngSubmit)="submitTask()">
-    <app-text-input formControlName="title" placeholder="Enter title" label="Title" isRequired="true" />
+    <app-text-input formControlName="title" placeholder="Enter title" label="Title" isRequired="true" [invalid]="form.controls.title.invalid" />
     <app-text-area formControlName="description" placeholder="Enter description" label="Description" />
+
     <label class="important-checkbox">
       <input type="checkbox" formControlName="important" name="important" />
       <span>Mark as important</span>
     </label>
+
+    @if (id) {
+      <label class="important-checkbox">
+        <input type="checkbox" formControlName="completed" name="completed" />
+        <span>Mark as completed</span>
+      </label>
+    }
+
     <div class="dialog-actions">
-      @if (taskId()) {
+      @if (id) {
         <app-button variant="error" (click)="deleteTask()" type="button" [disabled]="saving() || deleting()">
           @if (deleting()) {
             <app-spinner />
@@ -29,5 +37,7 @@
     </div>
   </form>
 } @else {
-  <app-spinner />
+  <div class="loading">
+    <app-spinner />
+  </div>
 }

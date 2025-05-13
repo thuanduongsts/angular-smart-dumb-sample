@@ -1,7 +1,9 @@
-@if (loading()) {
-  <app-spinner />
-} @else {
-  <div class="task-list">
+<div class="task-list">
+  @if (loading()) {
+    @for (_ of [].constructor(5); track $index) {
+      <app-skeleton height="52px"></app-skeleton>
+    }
+  } @else {
     @for (task of tasks(); track task.id) {
       <app-task-item
         [task]="task"
@@ -10,5 +12,5 @@
         (edit)="edit.emit(task.id)"
       />
     }
-  </div>
-}
+  }
+</div>
