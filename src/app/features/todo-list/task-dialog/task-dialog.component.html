@@ -2,37 +2,29 @@
   <h2>{{ id ? 'Edit Task' : 'Add Task' }}</h2>
   <div class="close" (click)="closeDialog()">&times;</div>
   <form [formGroup]="form" (ngSubmit)="submitTask()">
-    <app-text-input formControlName="title" placeholder="Enter title" label="Title" isRequired="true" [invalid]="form.controls.title.invalid" />
+    <app-text-input
+      formControlName="title"
+      placeholder="Enter title"
+      label="Title"
+      isRequired="true"
+      [invalid]="form.controls.title.invalid"
+    />
     <app-text-area formControlName="description" placeholder="Enter description" label="Description" />
 
-    <label class="important-checkbox">
-      <input type="checkbox" formControlName="important" name="important" />
-      <span>Mark as important</span>
-    </label>
+    <app-checkbox formControlName="important" label="Mark as important" />
 
     @if (id) {
-      <label class="important-checkbox">
-        <input type="checkbox" formControlName="completed" name="completed" />
-        <span>Mark as completed</span>
-      </label>
+      <app-checkbox formControlName="completed" label="Mark as completed" />
     }
 
     <div class="dialog-actions">
       @if (id) {
         <app-button variant="error" (click)="deleteTask()" type="button" [disabled]="saving() || deleting()">
-          @if (deleting()) {
-            <app-spinner />
-          } @else {
-            Delete
-          }
+          Delete
         </app-button>
       }
       <app-button variant="primary" type="submit" [disabled]="!form.dirty || form.invalid || saving()">
-        @if (saving()) {
-          <app-spinner />
-        } @else {
-          Save
-        }
+        Save
       </app-button>
     </div>
   </form>

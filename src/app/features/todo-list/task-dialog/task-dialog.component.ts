@@ -1,7 +1,6 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TaskModel } from '@common/models/task.model';
 import { ToastService } from '@shared/toast.service';
 
 import { ButtonComponent } from '../../../../ui/button/button.component';
@@ -10,12 +9,20 @@ import { TaskDialogService } from './task-dialog.service';
 import { TextAreaComponent } from '../../../../ui/text-area/text-area.component';
 import { SpinnerComponent } from '../../../../ui/spinner/spinner.component';
 import { TaskDialogCloseMessage } from '../model/task-dialog-close-message.model';
+import { CheckboxComponent } from '../../../../ui/checkbox/checkbox.component';
 
 @Component({
   standalone: true,
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',
-  imports: [ButtonComponent, TextInputComponent, ReactiveFormsModule, TextAreaComponent, SpinnerComponent],
+  imports: [
+    ButtonComponent,
+    TextInputComponent,
+    ReactiveFormsModule,
+    TextAreaComponent,
+    SpinnerComponent,
+    CheckboxComponent
+  ],
   providers: [TaskDialogService]
 })
 export class TaskDialogComponent implements OnInit {
@@ -23,7 +30,6 @@ export class TaskDialogComponent implements OnInit {
   readonly #saving = signal(false);
   readonly #deleting = signal(false);
   readonly #closeMessage = signal<TaskDialogCloseMessage | null>(null);
-
 
   public readonly form = new FormGroup({
     id: new FormControl<ID>('', { nonNullable: true }),
@@ -72,6 +78,7 @@ export class TaskDialogComponent implements OnInit {
       this.service.updateTask(this.id, this.form.getRawValue()).subscribe({
         next: value => {
           this.form.patchValue(value);
+          this.form.markAsPristine();
           this.#closeMessage.set({ type: 'updated', task: value });
           this.toastService.show('Task updated successfully');
           this.#saving.set(false);
@@ -89,6 +96,7 @@ export class TaskDialogComponent implements OnInit {
         .subscribe({
           next: value => {
             this.form.patchValue(value);
+            this.form.markAsPristine();
             this.#closeMessage.set({ type: 'created', task: value });
             this.toastService.show('Task created successfully');
             this.#saving.set(false);

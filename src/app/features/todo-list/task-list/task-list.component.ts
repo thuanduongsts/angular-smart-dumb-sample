@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { TaskModel } from '../model/task.model';
-import { SkeletonComponent } from "../../../../ui/skeleton/skeleton.component";
+import { SkeletonComponent } from '../../../../ui/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-task-list',

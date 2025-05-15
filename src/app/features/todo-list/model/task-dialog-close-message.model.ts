@@ -1,4 +1,4 @@
-import { TaskModel } from "./task.model";
+import { TaskModel } from './task.model';
 
 export interface TaskDialogCloseMessage {
   type: 'created' | 'updated' | 'deleted';

@@ -1,31 +1,33 @@
-import { ChangeDetectionStrategy, Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Dialog } from '@angular/cdk/dialog';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs';
 
-import { TodoListService } from './todo-list.service';
-import { TaskListComponent } from './task-list/task-list.component';
 import { ButtonComponent } from '../../../ui/button/button.component';
-import { TaskDialogComponent } from './task-dialog/task-dialog.component';
-import { TaskModel } from './model/task.model';
-import { SpinnerComponent } from "../../../ui/spinner/spinner.component";
 import { TaskDialogCloseMessage } from './model/task-dialog-close-message.model';
+import { TaskModel } from './model/task.model';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { TodoListService } from './todo-list.service';
+import { ToggleButtonGroupComponent } from '../../shared/components/toggle-button-group/toggle-button-group.component';
+import { ToggleButtonComponent } from '../../shared/components/toggle-button-group/toggle-button/toggle-button.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskListComponent, ButtonComponent, SpinnerComponent],
+  imports: [TaskListComponent, ButtonComponent, ToggleButtonGroupComponent, ToggleButtonComponent, FormsModule],
   providers: [TodoListService]
 })
 export class TodoListComponent implements OnInit {
   readonly #service = inject(TodoListService);
-  readonly #destroyRef = inject(DestroyRef);
   readonly #dialog = inject(Dialog);
   readonly #tasks = signal<TaskModel[]>([]);
   readonly #loading = signal<boolean>(true);
 
+  public readonly contentViewMode = signal<'in-progress' | 'completed'>('in-progress');
   public readonly activeTasks = computed(() => this.#tasks().filter(t => !t.completed));
   public readonly completedTasks = computed(() => this.#tasks().filter(t => t.completed));
   public readonly loading = this.#loading.asReadonly();
@@ -36,18 +38,19 @@ export class TodoListComponent implements OnInit {
 
   public loadTasks(): void {
     this.#loading.set(true);
-    this.#service
-      .getTasks()
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe({
-        next: tasks => {
-          this.#tasks.set(tasks);
-          this.#loading.set(false);
-        },
-        error: () => {
-          this.#loading.set(false);
-        }
-      });
+    this.#service.getTasks().subscribe({
+      next: tasks => {
+        this.#tasks.set(tasks);
+        this.#loading.set(false);
+      },
+      error: () => {
+        this.#loading.set(false);
+      }
+    });
+  }
+
+  public changeView(value: 'in-progress' | 'completed'): void {
+    this.contentViewMode.set(value);
   }
 
   public openDialog(id?: ID): void {
@@ -56,17 +59,9 @@ export class TodoListComponent implements OnInit {
       width: '600px'
     });
 
-    dialogRef.closed.pipe(take(1), filter(Boolean)).subscribe((message: TaskDialogCloseMessage) => this.handleDialogClose(message));
-  }
-
-  public handleToggleCompleted(id: ID): void {
-    const task = this.#tasks().find(t => t.id === id);
-    if (!task) return;
-    this.#service.updateCompleted(id, !task.completed).subscribe({
-      next: () => {
-        this.#tasks.update(tasks => tasks.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)));
-      }
-    });
+    dialogRef.closed
+      .pipe(take(1), filter(Boolean))
+      .subscribe((message: TaskDialogCloseMessage) => this.handleDialogClose(message));
   }
 
   public handleToggleImportant(id: ID): void {

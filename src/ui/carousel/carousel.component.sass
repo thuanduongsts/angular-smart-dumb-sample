@@ -1,0 +1,43 @@
+@use 'colors'
+
+:host
+  display: flex
+  align-items: center
+  gap: 32px
+
+.carousel-container
+  overflow-x: auto
+  width: 100%
+  height: 100%
+
+  &::-webkit-scrollbar
+    display: none
+
+.carousel-track
+  align-items: stretch
+  display: grid
+  grid-auto-flow: column
+  grid-auto-rows: 1fr
+  transition: transform 0.3s ease-in-out
+
+.button-group
+  display: flex
+  gap: 40px
+  align-items: center
+  justify-content: flex-end
+
+button
+  padding: 0
+  border: none
+  cursor: pointer
+  background-color: transparent
+
+  app-icon
+    background-color: colors.$primary
+
+  &:disabled
+    background-color: transparent
+    cursor: not-allowed
+    pointer-events: none
+    box-shadow: none
+    opacity: 0.5

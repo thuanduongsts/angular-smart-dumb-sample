@@ -1,0 +1,34 @@
+@let hasFewerItemsThanVisible = this.totalItems() <= this.numVisible();
+@if (!hasFewerItemsThanVisible && !isMobile()) {
+  <button type="button" (click)="scrollBackward()" [disabled]="isBackDisabled()">
+    <ng-container [ngTemplateOutlet]="prevButtonTemplate() ? prevButtonTemplate()!.templateRef : prev" />
+  </button>
+}
+
+<div
+  class="carousel-container"
+  appScrollTracker
+  [isHorizontal]="true"
+  [thresholdOffset]="1000"
+  (scrolledToThreshold)="onLoadMore()"
+>
+  <div class="carousel-track" [style.column-gap.px]="columnGapInPx" #track>
+    @for (carouselItem of carouselItems(); track carouselItem; let idx = $index; let first = $first; let last = $last) {
+      <ng-container *ngTemplateOutlet="carouselItem.templateRef" />
+    }
+  </div>
+</div>
+
+@if (!hasFewerItemsThanVisible && !isMobile()) {
+  <button type="button" (click)="scrollForward()" [disabled]="isNextDisabled()">
+    <ng-container [ngTemplateOutlet]="nextButtonTemplate() ? nextButtonTemplate()!.templateRef : next" />
+  </button>
+}
+
+<ng-template #prev>
+  <app-icon [size]="32" [name]="iconEnum.ARROW_BACK" />
+</ng-template>
+
+<ng-template #next>
+  <app-icon [size]="32" [name]="iconEnum.ARROW_FORWARD" />
+</ng-template>

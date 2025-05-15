@@ -10,7 +10,6 @@ import { TaskModel } from '../model/task.model';
 })
 export class TaskItemComponent {
   public readonly task = input<TaskModel>();
-  public readonly toggleCompleted = output<void>();
   public readonly toggleImportant = output<void>();
   public readonly edit = output<void>();
 }

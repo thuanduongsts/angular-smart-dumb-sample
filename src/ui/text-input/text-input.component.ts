@@ -16,5 +16,5 @@ export class TextInputComponent extends BaseControlAccessorComponent<string> {
   public readonly placeholder = input<string>('');
   public readonly isShowClear = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
   public readonly isRequired = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
-  public readonly invalid = input<boolean, StrOrBool>(false, { transform: booleanAttribute })
+  public readonly invalid = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
 }

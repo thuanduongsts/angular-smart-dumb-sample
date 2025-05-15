@@ -1,0 +1,11 @@
+@use 'colors';
+
+:host {
+  display: inline-block;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  min-width: 24px;
+  min-height: 24px;
+  background-color: black;
+}

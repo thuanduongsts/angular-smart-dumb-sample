@@ -17,7 +17,7 @@ import { Component, Input } from '@angular/core';
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3)
         font-size: 14px
         max-width: 300px
-    `,
+    `
   ]
 })
 export class ToastMessageComponent {

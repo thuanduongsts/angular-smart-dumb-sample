@@ -1,0 +1,4 @@
+<label class="checkbox">
+  <input type="checkbox" [ngModel]="value()" (ngModelChange)="updateValue($event)" />
+  <span>{{ label() }}</span>
+</label>

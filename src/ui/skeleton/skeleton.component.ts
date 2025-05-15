@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     ></div>
   `,
   styleUrl: './skeleton.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkeletonComponent {
   public readonly width = input<string>('100%');

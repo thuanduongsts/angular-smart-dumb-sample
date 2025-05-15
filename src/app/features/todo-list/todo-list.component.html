@@ -4,24 +4,20 @@
   <app-button variant="primary" (click)="openDialog()">+ Add a task</app-button>
 </div>
 
-<h3>Tasks</h3>
-<div class="task-section">
-  <app-task-list
-    [tasks]="activeTasks()"
-    [loading]="loading()"
-    (toggleCompleted)="handleToggleCompleted($event)"
-    (toggleImportant)="handleToggleImportant($event)"
-    (edit)="openDialog($event)"
-  />
-</div>
+@let isInProgressMode = contentViewMode() === 'in-progress';
 
-<h3>Completed</h3>
-<div class="task-section completed">
-  <app-task-list
-    [tasks]="completedTasks()"
-    [loading]="loading()"
-    (toggleCompleted)="handleToggleCompleted($event)"
-    (toggleImportant)="handleToggleImportant($event)"
-    (edit)="openDialog($event)"
-  />
-</div>
+<app-toggle-button-group [ngModel]="contentViewMode()" (ngModelChange)="changeView($event)">
+  <app-toggle-button ariaLabel="In Progress Tasks" value="in-progress" [isActive]="isInProgressMode">
+    In Progress
+  </app-toggle-button>
+  <app-toggle-button ariaLabel="Completed Tasks" value="completed" [isActive]="!isInProgressMode">
+    Completed
+  </app-toggle-button>
+</app-toggle-button-group>
+
+<app-task-list
+  [tasks]="isInProgressMode ? activeTasks() : completedTasks()"
+  [loading]="loading()"
+  (toggleImportant)="handleToggleImportant($event)"
+  (edit)="openDialog($event)"
+/>
