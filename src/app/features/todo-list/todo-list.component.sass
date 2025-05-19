@@ -1,16 +1,15 @@
 @use 'typography' as *
 @use 'colors'
-@use 'fonts'
 
 :host
   padding: 32px 80px
   display: block
   background: rgb(250, 250, 250)
+  color: colors.$p-secondary-600
 
 .page-title
-  @extend %display-md
-  color: colors.$on-primary-container
-  font-family: fonts.$minion-pro
+  @extend %display-lg
+  color: colors.$p-secondary-800
   margin-bottom: 24px
 
 .todo-header
