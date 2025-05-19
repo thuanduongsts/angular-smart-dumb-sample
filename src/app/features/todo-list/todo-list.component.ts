@@ -1,9 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { filter, take } from 'rxjs';
-
-import { ButtonComponent } from '../../../ui/button/button.component';
 import { TaskDialogCloseMessage } from './model/task-dialog-close-message.model';
 import { TaskModel } from './model/task.model';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
@@ -12,16 +9,19 @@ import { TodoListService } from './todo-list.service';
 import { ToggleButtonGroupComponent } from '../../shared/components/toggle-button-group/toggle-button-group.component';
 import { ToggleButtonComponent } from '../../shared/components/toggle-button-group/toggle-button/toggle-button.component';
 import { FormsModule } from '@angular/forms';
+import { Button, IconComponent, IconEnum } from '@ui';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskListComponent, ButtonComponent, ToggleButtonGroupComponent, ToggleButtonComponent, FormsModule],
+  imports: [TaskListComponent, ToggleButtonGroupComponent, ToggleButtonComponent, FormsModule, Button, IconComponent],
   providers: [TodoListService]
 })
 export class TodoListComponent implements OnInit {
+  protected readonly IconEnum = IconEnum;
+
   readonly #service = inject(TodoListService);
   readonly #dialog = inject(Dialog);
   readonly #tasks = signal<TaskModel[]>([]);
