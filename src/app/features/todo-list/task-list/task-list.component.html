@@ -7,9 +7,8 @@
     @for (task of tasks(); track task.id) {
       <app-task-item
         [task]="task"
-        (toggleCompleted)="toggleCompleted.emit(task.id)"
-        (toggleImportant)="toggleImportant.emit(task.id)"
-        (edit)="edit.emit(task.id)"
+        (clickedImportantButton)="toggleImportant.emit(task.id)"
+        (clickedTitle)="edit.emit(task.id)"
       />
     }
   }
