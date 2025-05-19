@@ -1,25 +1,24 @@
 import { ChangeDetectionStrategy, Component, contentChildren, DestroyRef, forwardRef, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { outputToObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BaseControlAccessorComponent } from '@shared/abstraction/base-control-accessor.directive';
 
 import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
+import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-toggle-button-group',
-  standalone: true,
+  template: `<ng-content select="app-toggle-button" /> `,
+  styleUrl: './toggle-button-group.component.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ToggleButtonGroupComponent),
       multi: true
     }
-  ],
-  templateUrl: './toggle-button-group.component.html',
-  styleUrl: './toggle-button-group.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
-export class ToggleButtonGroupComponent extends BaseControlAccessorComponent<ID> implements OnInit {
+export class ToggleButtonGroupComponent extends BaseControlAccessor<ID> implements OnInit {
   public readonly buttons = contentChildren(ToggleButtonComponent);
 
   public constructor(private destroyRef: DestroyRef) {

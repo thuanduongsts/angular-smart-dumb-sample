@@ -2,7 +2,7 @@ import { Directive, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 @Directive()
-export class BaseControlAccessorComponent<T> implements ControlValueAccessor {
+export class BaseControlAccessor<T> implements ControlValueAccessor {
   readonly #isDisabled = signal<boolean>(false);
   readonly #value = signal<Maybe<T>>(undefined);
 

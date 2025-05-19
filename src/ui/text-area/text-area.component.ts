@@ -1,7 +1,7 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { BaseControlAccessorComponent } from '../base-control-accessor.directive';
+import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-text-area',
@@ -18,7 +18,7 @@ import { BaseControlAccessorComponent } from '../base-control-accessor.directive
     }
   ]
 })
-export class TextAreaComponent extends BaseControlAccessorComponent<string> {
+export class TextAreaComponent extends BaseControlAccessor<string> {
   public readonly label = input<string>('');
   public readonly rows = input<number>(5);
   public readonly placeholder = input<string>('');

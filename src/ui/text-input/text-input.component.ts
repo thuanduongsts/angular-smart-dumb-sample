@@ -1,7 +1,7 @@
 import { booleanAttribute, Component, forwardRef, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { BaseControlAccessorComponent } from '../base-control-accessor.directive';
+import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-text-input',
@@ -11,7 +11,7 @@ import { BaseControlAccessorComponent } from '../base-control-accessor.directive
   styleUrl: './text-input.component.sass',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: TextInputComponent, multi: true }]
 })
-export class TextInputComponent extends BaseControlAccessorComponent<string> {
+export class TextInputComponent extends BaseControlAccessor<string> {
   public readonly label = input<string>('');
   public readonly placeholder = input<string>('');
   public readonly isShowClear = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
