@@ -1,34 +1,35 @@
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  input,
-  numberAttribute
-} from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 
+import { LoadingIconComponent } from '../icon/loading-icon/loading-icon.component';
 import { ButtonVariant } from './button-variant.model';
 
 @Component({
-  selector: 'app-button',
+  selector: 'button[customButton], a[customButton]',
   standalone: true,
-  templateUrl: './button.component.html',
+  template: `
+    @if (isLoading()) {
+      <app-loading-icon />
+    }
+    <ng-content />
+  `,
   styleUrl: './button.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [LoadingIconComponent],
+  host: {
+    class: 'cus-btn',
+    '[class.cus-btn-primary]': `cusType() === 'primary'`,
+    '[class.cus-btn-secondary]': `cusType() === 'secondary'`,
+    '[class.cus-btn-success]': `cusType() === 'success'`,
+    '[class.cus-btn-warning]': `cusType() === 'warning'`,
+    '[class.cus-btn-danger]': `cusType() === 'danger'`,
+    '[class.outline]': `cusVariant() === 'outline'`,
+    '[class.text]': `cusVariant() === 'text'`,
+    '[class.link]': `cusVariant() === 'link'`
+  }
 })
-export class ButtonComponent {
-  public readonly type = input<'submit' | 'button'>('button');
-  public readonly variant = input<ButtonVariant>('primary');
-  public readonly outlined = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
-  public readonly disabled = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
+export class Button {
+  public readonly cusType = input<ButtonVariant>('primary');
+  public readonly cusVariant = input<Maybe<'outline' | 'text' | 'link'>>(undefined);
   public readonly isLoading = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
-  public readonly height = input<number, StrOrNum>(48, { transform: numberAttribute });
-
-  get styleClasses(): string[] {
-    return [this.variant(), this.outlined() ? 'outlined' : '', this.disabled() ? 'disabled' : ''];
-  }
-
-  @HostBinding('class.disabled') get disabledButton(): boolean {
-    return this.disabled();
-  }
 }

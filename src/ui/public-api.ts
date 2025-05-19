@@ -1,5 +1,8 @@
-export { ButtonComponent } from './button/button.component';
+export { Button } from './button/button.component';
 export { ButtonVariant } from './button/button-variant.model';
+
+export * from './icon/icon.component';
+export * from './icon/icon.enum';
 
 export { TextInputComponent } from './text-input/text-input.component';
 export { SpinnerComponent } from './spinner/spinner.component';

@@ -19,13 +19,13 @@
 
     <div class="dialog-actions">
       @if (id) {
-        <app-button variant="error" (click)="deleteTask()" type="button" [disabled]="saving() || deleting()">
+        <button customButton cusType="danger" type="button" (click)="deleteTask()" [disabled]="saving() || deleting()">
           Delete
-        </app-button>
+        </button>
       }
-      <app-button variant="primary" type="submit" [disabled]="!form.dirty || form.invalid || saving()">
+      <button customButton type="submit" (click)="deleteTask()" [disabled]="!form.dirty || form.invalid || saving()">
         Save
-      </app-button>
+      </button>
     </div>
   </form>
 } @else {

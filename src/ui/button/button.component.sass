@@ -2,41 +2,73 @@
 @use 'colors'
 @use 'typography' as *
 
-$button-list: (primary: colors.$primary, secondary: colors.$p-secondary-30, tertiary: colors.$p-tertiary-50, error: colors.$error)
-$border-list: (secondary: colors.$p-primary-25,tertiary: colors.$p-tertiary-40)
+$button-list: (primary: colors.$primary, secondary: colors.$secondary, success: colors.$success, warning: colors.$warning, danger: colors.$danger)
+$interact-state-outline-list: (primary: colors.$primary-container, secondary: colors.$secondary-container, success: colors.$success-container, warning: colors.$warning-container, danger: colors.$danger-container)
+$interact-state-background-list: (primary: colors.$p-primary-800, secondary: colors.$p-secondary-800, success: colors.$p-success-800, warning: colors.$p-warning-500, danger: colors.$p-danger-800)
 
-:host.disabled
-  cursor: not-allowed
-  pointer-events: none
-  opacity: 0.8
-
-button
+.cus-btn
   @extend %label-lg
   display: inline-flex
   width: inherit
   justify-content: center
   align-items: center
   gap: 8px
-  padding: 0 24px
+  padding: 10px 20px
   cursor: pointer
-  border-radius: 8px
+  border-radius: 4px
   border: 0
+
+  &:disabled
+    cursor: not-allowed
+    pointer-events: none
+    opacity: 0.6
 
   &.none
     background: transparent
     padding: 0
 
   @each $b-name, $b-value in $button-list
-    &.#{$b-name}
+    &.cus-btn-#{$b-name}
       background-color: map.get($button-list, $b-name)
       color: white
 
-      @if map.get($border-list, $b-name)
-        outline: 1px solid map.get($border-list, $b-name)
+      &:hover,
+      &:active
+        background-color:  map.get($interact-state-background-list, $b-name)
+
+      &:focus
+        background-color:  map.get($interact-state-background-list, $b-name)
+        outline: 4px solid map.get($interact-state-outline-list, $b-name)
+
 
   @each $b-name, $b-value in $button-list
-    &.#{$b-name}.outlined
+    &.cus-btn-#{$b-name}.outline
+      background-color: white
+      border: 1px solid map.get($button-list, $b-name)
+      color: map.get($button-list, $b-name)
+
+      &:hover,
+      &:active,
+      &:focus
+        background-color: map.get($button-list, $b-name)
+        color: white
+
+  @each $b-name, $b-value in $button-list
+    &.cus-btn-#{$b-name}.text
       background-color: white
       color: map.get($button-list, $b-name)
-      outline: 1px solid map.get($button-list, $b-name)
 
+      &:hover,
+      &:active,
+      &:focus
+        background-color: rgba(map.get($interact-state-outline-list, $b-name), 0.2)
+
+    &.cus-btn-#{$b-name}.link
+      text-decoration: underline
+      background-color: white
+      color: map.get($button-list, $b-name)
+
+      &:hover,
+      &:active,
+      &:focus
+        color: map.get($interact-state-background-list, $b-name)

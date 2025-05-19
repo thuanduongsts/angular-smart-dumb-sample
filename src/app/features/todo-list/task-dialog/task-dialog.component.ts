@@ -2,27 +2,19 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@shared/toast.service';
-
-import { ButtonComponent } from '../../../../ui/button/button.component';
 import { TextInputComponent } from '../../../../ui/text-input/text-input.component';
 import { TaskDialogService } from './task-dialog.service';
 import { TextAreaComponent } from '../../../../ui/text-area/text-area.component';
 import { SpinnerComponent } from '../../../../ui/spinner/spinner.component';
 import { TaskDialogCloseMessage } from '../model/task-dialog-close-message.model';
 import { CheckboxComponent } from '../../../../ui/checkbox/checkbox.component';
+import { Button } from '@ui';
 
 @Component({
   standalone: true,
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',
-  imports: [
-    ButtonComponent,
-    TextInputComponent,
-    ReactiveFormsModule,
-    TextAreaComponent,
-    SpinnerComponent,
-    CheckboxComponent
-  ],
+  imports: [TextInputComponent, ReactiveFormsModule, TextAreaComponent, SpinnerComponent, CheckboxComponent, Button],
   providers: [TaskDialogService]
 })
 export class TaskDialogComponent implements OnInit {
