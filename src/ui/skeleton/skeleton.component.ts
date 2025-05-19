@@ -1,19 +1,13 @@
-import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton',
-  imports: [NgStyle],
-  template: `
-    <div
-      class="skeleton-block shimmer"
-      [ngStyle]="{
-        width: width(),
-        height: height(),
-        borderRadius: borderRadius()
-      }"
-    ></div>
-  `,
+  template: '',
+  host: {
+    '[style.width]': `width()`,
+    '[style.height]': `height()`,
+    '[style.borderRadius]': `borderRadius()`
+  },
   styleUrl: './skeleton.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

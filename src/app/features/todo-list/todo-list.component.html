@@ -21,6 +21,6 @@
 <app-task-list
   [tasks]="isInProgressMode ? activeTasks() : completedTasks()"
   [loading]="loading()"
-  (toggleImportant)="handleToggleImportant($event)"
-  (edit)="openDialog($event)"
+  (clickedImportantButton)="handleToggleImportant($event)"
+  (clickedTitle)="openDialog($event)"
 />
