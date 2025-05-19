@@ -6,10 +6,8 @@ import { TaskModel } from './model/task.model';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TodoListService } from './todo-list.service';
-import { ToggleButtonGroupComponent } from '../../shared/components/toggle-button-group/toggle-button-group.component';
-import { ToggleButtonComponent } from '../../shared/components/toggle-button-group/toggle-button/toggle-button.component';
 import { FormsModule } from '@angular/forms';
-import { Button, IconComponent, IconEnum } from '@ui';
+import { Button, IconComponent, IconEnum, ToggleButtonComponent, ToggleButtonGroupComponent } from '@ui';
 
 @Component({
   selector: 'app-todo-list',

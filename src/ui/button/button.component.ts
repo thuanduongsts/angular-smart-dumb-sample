@@ -5,7 +5,6 @@ import { ButtonVariant } from './button-variant.model';
 
 @Component({
   selector: 'button[customButton], a[customButton]',
-  standalone: true,
   template: `
     @if (isLoading()) {
       <app-loading-icon />
@@ -30,6 +29,6 @@ import { ButtonVariant } from './button-variant.model';
 })
 export class Button {
   public readonly cusType = input<ButtonVariant>('primary');
-  public readonly cusVariant = input<Maybe<'outline' | 'text' | 'link'>>(undefined);
+  public readonly cusVariant = input<'outline' | 'text' | 'link' | undefined>(undefined);
   public readonly isLoading = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
 }

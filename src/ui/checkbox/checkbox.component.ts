@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BaseControlAccessorComponent } from '../base-control-accessor.directive';
+import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-checkbox',
@@ -17,6 +17,6 @@ import { BaseControlAccessorComponent } from '../base-control-accessor.directive
   standalone: true,
   imports: [FormsModule]
 })
-export class CheckboxComponent extends BaseControlAccessorComponent<boolean> {
+export class CheckboxComponent extends BaseControlAccessor<boolean> {
   public readonly label = input.required<string>();
 }
