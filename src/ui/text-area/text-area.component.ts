@@ -9,7 +9,6 @@ import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.dir
   styleUrl: './text-area.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
-  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

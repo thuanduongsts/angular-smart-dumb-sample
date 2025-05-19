@@ -1,11 +1,10 @@
-import { booleanAttribute, Component, forwardRef, input } from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-text-input',
-  standalone: true,
   imports: [FormsModule],
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.sass',

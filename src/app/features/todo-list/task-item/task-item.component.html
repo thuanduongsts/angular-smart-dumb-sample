@@ -1,18 +1,18 @@
 <div class="task-content" [class.completed]="task().completed">
   <span class="task-title">
-    <span (click)="clickedTitle.emit()">{{ task().title }}</span>
+    <span (click)="handleClickTitle()">{{ task().title }}</span>
 
     @if (task().completed) {
-      <app-icon [name]="IconEnum.CHECKMARK_CIRCLE"></app-icon>
+      <app-icon [name]="IconEnum.CHECKMARK_CIRCLE"/>
     }
   </span>
   <span class="task-description">{{ task().description }}</span>
 </div>
 
-<button customButton cusVariant="text" cusType="secondary" (click)="clickedImportantButton.emit()">
-  <app-icon class="star-icon" [class.important]="task().important" [name]="IconEnum.STAR_FILLED"></app-icon>
+<button customButton cusVariant="text" cusType="secondary" (click)="handleClickImportant()">
+  <app-icon class="star-icon" [class.important]="task().important" [name]="IconEnum.STAR_FILLED"/>
 </button>
 
-<button customButton cusVariant="text" cusType="danger" (click)="clickedDeleteButton.emit()">
-  <app-icon class="delete-icon" [name]="IconEnum.DELETE"></app-icon>
+<button customButton cusVariant="text" cusType="danger" (click)="handleClickDelete()">
+  <app-icon class="delete-icon" [name]="IconEnum.DELETE"/>
 </button>

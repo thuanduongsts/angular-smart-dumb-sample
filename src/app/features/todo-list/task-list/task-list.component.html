@@ -6,9 +6,9 @@
   @for (task of tasks(); track task.id) {
     <app-task-item
       [task]="task"
-      (clickedTitle)="clickedTitle.emit(task.id)"
-      (clickedDeleteButton)="clickedDeleteButton.emit(task)"
-      (clickedImportantButton)="clickedImportantButton.emit(task)"
+      (clickedTitle)="handleClickTitle(task.id)"
+      (clickedDeleteButton)="handleClickDelete(task)"
+      (clickedImportantButton)="handleClickImportant(task)"
     />
   }
 }

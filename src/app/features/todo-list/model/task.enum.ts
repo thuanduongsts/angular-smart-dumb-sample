@@ -1,4 +1,4 @@
 export enum TaskView {
-  IN_PROGRESS,
-  COMPLETED
+  IN_PROGRESS = 'In Progress',
+  COMPLETED = 'Completed'
 }

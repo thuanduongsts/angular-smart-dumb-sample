@@ -8,8 +8,7 @@ import { TaskModel } from '../model/task.model';
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.sass',
   imports: [Button, IconComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemComponent {
   public readonly IconEnum = IconEnum;
@@ -17,4 +16,16 @@ export class TaskItemComponent {
   public readonly clickedTitle = output<void>();
   public readonly clickedImportantButton = output<void>();
   public readonly clickedDeleteButton = output<void>();
+
+  public handleClickTitle(): void {
+    this.clickedTitle.emit();
+  }
+
+  public handleClickImportant(): void {
+    this.clickedImportantButton.emit();
+  }
+
+  public handleClickDelete(): void {
+    this.clickedDeleteButton.emit();
+  }
 }
