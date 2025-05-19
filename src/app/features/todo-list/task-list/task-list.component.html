@@ -7,8 +7,8 @@
     <app-task-item
       [task]="task"
       (clickedTitle)="clickedTitle.emit(task.id)"
-      (clickedDeleteButton)="clickedDeleteButton.emit(task.id)"
-      (clickedImportantButton)="clickedImportantButton.emit(task.id)"
+      (clickedDeleteButton)="clickedDeleteButton.emit(task)"
+      (clickedImportantButton)="clickedImportantButton.emit(task)"
     />
   }
 }

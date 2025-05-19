@@ -12,11 +12,11 @@ export class TodoListService {
     return this.api.getTasks();
   }
 
-  public updateCompleted(id: ID, completed: boolean): Observable<unknown> {
-    return this.api.updateTask(id, { completed });
+  public updateTaskImportant(id: ID, important: boolean): Observable<unknown> {
+    return this.api.updateTask(id, { important });
   }
 
-  public updateImportant(id: ID, important: boolean): Observable<unknown> {
-    return this.api.updateTask(id, { important });
+  public deleteTask(id: ID): Observable<unknown> {
+    return this.api.deleteTask(id);
   }
 }

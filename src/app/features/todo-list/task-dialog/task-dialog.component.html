@@ -23,7 +23,7 @@
           Delete
         </button>
       }
-      <button customButton type="submit" (click)="deleteTask()" [disabled]="!form.dirty || form.invalid || saving()">
+      <button customButton type="submit" [disabled]="!form.dirty || form.invalid || saving()">
         Save
       </button>
     </div>

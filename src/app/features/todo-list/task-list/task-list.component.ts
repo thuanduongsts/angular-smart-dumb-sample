@@ -15,6 +15,6 @@ export class TaskListComponent {
   public readonly tasks = input.required<TaskModel[]>();
   public readonly loading = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
   public readonly clickedTitle = output<ID>();
-  public readonly clickedDeleteButton = output<ID>();
-  public readonly clickedImportantButton = output<ID>();
+  public readonly clickedDeleteButton = output<TaskModel>();
+  public readonly clickedImportantButton = output<TaskModel>();
 }

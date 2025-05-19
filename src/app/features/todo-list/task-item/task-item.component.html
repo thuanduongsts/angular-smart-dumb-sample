@@ -1,6 +1,6 @@
 <div class="task-content" [class.completed]="task().completed">
-  <span class="task-title" (click)="clickedTitle.emit()">
-    <span>{{ task().title }}</span>
+  <span class="task-title">
+    <span (click)="clickedTitle.emit()">{{ task().title }}</span>
 
     @if (task().completed) {
       <app-icon [name]="IconEnum.CHECKMARK_CIRCLE"></app-icon>
