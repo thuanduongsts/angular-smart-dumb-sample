@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
+
+import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -14,8 +15,7 @@ import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.dir
       multi: true
     }
   ],
-  standalone: true,
-  imports: [FormsModule]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxComponent extends BaseControlAccessor<boolean> {
   public readonly label = input.required<string>();

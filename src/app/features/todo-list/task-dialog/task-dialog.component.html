@@ -9,6 +9,7 @@
       isRequired="true"
       [invalid]="form.controls.title.invalid"
     />
+
     <app-text-area formControlName="description" placeholder="Enter description" label="Description" />
 
     <app-checkbox formControlName="important" label="Mark as important" />
@@ -17,19 +18,10 @@
       <app-checkbox formControlName="completed" label="Mark as completed" />
     }
 
-    <div class="dialog-actions">
-      @if (id) {
-        <button customButton cusType="danger" type="button" (click)="deleteTask()" [disabled]="saving() || deleting()">
-          Delete
-        </button>
-      }
-      <button customButton type="submit" (click)="deleteTask()" [disabled]="!form.dirty || form.invalid || saving()">
-        Save
-      </button>
-    </div>
+    <button customButton type="submit" [disabled]="!form.dirty || form.invalid || saving()" [isLoading]="saving()">
+      Save
+    </button>
   </form>
 } @else {
-  <div class="loading">
-    <app-spinner />
-  </div>
+  <app-spinner />
 }

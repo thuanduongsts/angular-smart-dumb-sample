@@ -3,19 +3,18 @@
 
 :host
   padding: 32px 80px
-  display: block
-  background: rgb(250, 250, 250)
+  display: flex
+  flex-direction: column
+  background: colors.$p-primary-50
   color: colors.$p-secondary-600
 
-.page-title
-  @extend %display-lg
-  color: colors.$p-secondary-800
-  margin-bottom: 24px
+  h1
+    @extend %display-lg
+    color: colors.$p-secondary-800
+    margin-bottom: 24px
 
-.todo-header
-  display: flex
-  justify-content: flex-end
-  margin-bottom: 16px
+  button
+    align-self: flex-end
 
-.task-section.completed
-  opacity: 0.7
+  app-toggle-button-group
+    align-self: flex-start

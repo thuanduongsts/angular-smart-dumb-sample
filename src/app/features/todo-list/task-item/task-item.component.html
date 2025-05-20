@@ -1,16 +1,18 @@
-<div class="task-content">
-  <span class="task-title" (click)="edit.emit()">
-    {{ task()?.title }}
-    @if (task()?.completed) {
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 12L9 15L17 7" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
-      </svg>
+<div class="task-content" [class.completed]="task().completed">
+  <span class="task-title">
+    <span (click)="handleClickTitle()">{{ task().title }}</span>
+
+    @if (task().completed) {
+      <app-icon [name]="IconEnum.CHECKMARK_CIRCLE"/>
     }
   </span>
-  <span class="task-description">{{ task()?.description }}</span>
+  <span class="task-description">{{ task().description }}</span>
 </div>
 
-<button variant="tertiary" (click)="toggleImportant.emit()" class="star-btn" aria-label="Mark as important">
-  <span [class.filled]="task()?.important">★</span>
+<button customButton cusVariant="text" cusType="secondary" (click)="handleClickImportant()">
+  <app-icon class="star-icon" [class.important]="task().important" [name]="IconEnum.STAR_FILLED"/>
+</button>
+
+<button customButton cusVariant="text" cusType="danger" (click)="handleClickDelete()">
+  <app-icon class="delete-icon" [name]="IconEnum.DELETE"/>
 </button>

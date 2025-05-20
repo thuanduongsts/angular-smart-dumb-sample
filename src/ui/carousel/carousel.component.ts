@@ -35,7 +35,6 @@ import { ResponsiveScreen } from '@shared/constant/responsive-screen.constant';
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.sass',
   imports: [NgTemplateOutlet, IconComponent, ScrollTrackerDirective],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarouselComponent implements AfterViewInit {

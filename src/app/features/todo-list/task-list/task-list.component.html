@@ -1,16 +1,14 @@
-<div class="task-list">
-  @if (loading()) {
-    @for (_ of [].constructor(5); track $index) {
-      <app-skeleton height="52px"></app-skeleton>
-    }
-  } @else {
-    @for (task of tasks(); track task.id) {
-      <app-task-item
-        [task]="task"
-        (toggleCompleted)="toggleCompleted.emit(task.id)"
-        (toggleImportant)="toggleImportant.emit(task.id)"
-        (edit)="edit.emit(task.id)"
-      />
-    }
+@if (loading()) {
+  @for (_ of [].constructor(5); track $index) {
+    <app-skeleton height="88px"></app-skeleton>
   }
-</div>
+} @else {
+  @for (task of tasks(); track task.id) {
+    <app-task-item
+      [task]="task"
+      (clickedTitle)="handleClickTitle(task.id)"
+      (clickedDeleteButton)="handleClickDelete(task)"
+      (clickedImportantButton)="handleClickImportant(task)"
+    />
+  }
+}

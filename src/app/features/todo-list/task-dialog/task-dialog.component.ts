@@ -2,16 +2,12 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@shared/toast.service';
-import { TextInputComponent } from '../../../../ui/text-input/text-input.component';
+import { Button, CheckboxComponent, SpinnerComponent, TextAreaComponent, TextInputComponent } from '@ui';
+
 import { TaskDialogService } from './task-dialog.service';
-import { TextAreaComponent } from '../../../../ui/text-area/text-area.component';
-import { SpinnerComponent } from '../../../../ui/spinner/spinner.component';
-import { TaskDialogCloseMessage } from '../model/task-dialog-close-message.model';
-import { CheckboxComponent } from '../../../../ui/checkbox/checkbox.component';
-import { Button } from '@ui';
+import { TaskModel } from '../model/task.model';
 
 @Component({
-  standalone: true,
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',
   imports: [TextInputComponent, ReactiveFormsModule, TextAreaComponent, SpinnerComponent, CheckboxComponent, Button],
@@ -20,8 +16,8 @@ import { Button } from '@ui';
 export class TaskDialogComponent implements OnInit {
   readonly #fetching = signal(true);
   readonly #saving = signal(false);
-  readonly #deleting = signal(false);
-  readonly #closeMessage = signal<TaskDialogCloseMessage | null>(null);
+
+  #hasSaved = false;
 
   public readonly form = new FormGroup({
     id: new FormControl<ID>('', { nonNullable: true }),
@@ -37,11 +33,10 @@ export class TaskDialogComponent implements OnInit {
 
   public readonly fetching = this.#fetching.asReadonly();
   public readonly saving = this.#saving.asReadonly();
-  public readonly deleting = this.#deleting.asReadonly();
 
   public constructor(
     private service: TaskDialogService,
-    private dialogRef: DialogRef,
+    private dialogRef: DialogRef<{ hasSaved: boolean }>,
     private toastService: ToastService,
     @Inject(DIALOG_DATA) public dialogData: { id: Maybe<string> }
   ) {
@@ -50,7 +45,7 @@ export class TaskDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.dialogData.id) {
-      this.service.getDetails(this.id).subscribe({
+      this.service.getTaskDetails(this.id).subscribe({
         next: details => {
           this.#fetching.set(false);
           this.form.patchValue(details);
@@ -66,58 +61,39 @@ export class TaskDialogComponent implements OnInit {
 
   public submitTask(): void {
     this.#saving.set(true);
-    if (this.form.controls.id.value) {
+    if (this.id) {
       this.service.updateTask(this.id, this.form.getRawValue()).subscribe({
         next: value => {
-          this.form.patchValue(value);
-          this.form.markAsPristine();
-          this.#closeMessage.set({ type: 'updated', task: value });
-          this.toastService.show('Task updated successfully');
-          this.#saving.set(false);
+          this.#updateStatesAfterSaved(value);
+          this.toastService.show('Updated task successfully.');
         },
         error: () => {
           this.#saving.set(false);
-          this.toastService.show('Task update failed');
+          this.toastService.show('Failed to update task.');
         }
       });
     } else {
-      this.service
-        .createTask({
-          ...this.form.getRawValue()
-        })
-        .subscribe({
-          next: value => {
-            this.form.patchValue(value);
-            this.form.markAsPristine();
-            this.#closeMessage.set({ type: 'created', task: value });
-            this.toastService.show('Task created successfully');
-            this.#saving.set(false);
-          },
-          error: () => {
-            this.#saving.set(false);
-            this.toastService.show('Task create failed');
-          }
-        });
+      this.service.createTask(this.form.getRawValue()).subscribe({
+        next: value => {
+          this.#updateStatesAfterSaved(value);
+          this.toastService.show('Created task successfully.');
+        },
+        error: () => {
+          this.#saving.set(false);
+          this.toastService.show('Failed to create task.');
+        }
+      });
     }
   }
 
-  public deleteTask(): void {
-    this.#deleting.set(true);
-
-    this.service.deleteTask(this.id).subscribe({
-      next: () => {
-        this.#closeMessage.set({ type: 'deleted', task: this.form.getRawValue() });
-        this.toastService.show('Task deleted successfully');
-        this.closeDialog();
-      },
-      error: () => {
-        this.#deleting.set(false);
-        this.toastService.show('Task delete failed');
-      }
-    });
+  #updateStatesAfterSaved(newValue: TaskModel): void {
+    this.form.patchValue(newValue);
+    this.form.markAsPristine();
+    this.#saving.set(false);
+    this.#hasSaved = true;
   }
 
   public closeDialog(): void {
-    this.dialogRef.close(this.#closeMessage());
+    this.dialogRef.close({ hasSaved: this.#hasSaved });
   }
 }

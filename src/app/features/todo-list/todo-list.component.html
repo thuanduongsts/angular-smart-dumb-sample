@@ -1,19 +1,17 @@
-<h1 class="page-title">Todo App</h1>
+<h1>Todo App</h1>
 
-<div class="todo-header">
-  <button customButton (click)="openDialog()">
-    <app-icon [name]="IconEnum.PLUS" />
-    Add a task
-  </button>
-</div>
+<button customButton (click)="openDialog(null)">
+  <app-icon [name]="IconEnum.PLUS" />
+  Add a task
+</button>
 
-@let isInProgressMode = contentViewMode() === 'in-progress';
+@let isInProgressMode = taskViewMode() === TaskView.IN_PROGRESS;
 
-<app-toggle-button-group [ngModel]="contentViewMode()" (ngModelChange)="changeView($event)">
-  <app-toggle-button ariaLabel="In Progress Tasks" value="in-progress" [isActive]="isInProgressMode">
+<app-toggle-button-group [ngModel]="taskViewMode()" (ngModelChange)="changeViewMode($event)">
+  <app-toggle-button ariaLabel="In Progress Tasks" [value]="TaskView.IN_PROGRESS" [isActive]="isInProgressMode">
     In Progress
   </app-toggle-button>
-  <app-toggle-button ariaLabel="Completed Tasks" value="completed" [isActive]="!isInProgressMode">
+  <app-toggle-button ariaLabel="Completed Tasks" [value]="TaskView.COMPLETED" [isActive]="!isInProgressMode">
     Completed
   </app-toggle-button>
 </app-toggle-button-group>
@@ -21,6 +19,7 @@
 <app-task-list
   [tasks]="isInProgressMode ? activeTasks() : completedTasks()"
   [loading]="loading()"
-  (toggleImportant)="handleToggleImportant($event)"
-  (edit)="openDialog($event)"
+  (clickedTitle)="openDialog($event)"
+  (clickedDeleteButton)="handleDeleteTask($event)"
+  (clickedImportantButton)="handeUpdateTaskImportant($event)"
 />

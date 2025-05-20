@@ -6,7 +6,6 @@ import { IconEnum } from './icon.enum';
   selector: 'app-icon',
   template: '',
   styleUrls: ['./icon.component.scss'],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconComponent {
