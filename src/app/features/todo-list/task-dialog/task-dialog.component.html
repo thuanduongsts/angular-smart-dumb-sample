@@ -1,27 +1,24 @@
-@if (!fetching()) {
-  <h2>{{ id ? 'Edit Task' : 'Add Task' }}</h2>
-  <div class="close" (click)="closeDialog()">&times;</div>
+@if (!isFetching()) {
   <form [formGroup]="form" (ngSubmit)="submitTask()">
-    <app-text-input
-      formControlName="title"
-      placeholder="Enter title"
-      label="Title"
-      isRequired="true"
-      [invalid]="form.controls.title.invalid"
-    />
+    <h2>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h2>
+    <div class="close" (click)="closeDialog()">&times;</div>
+    <div class="control-group">
+      <label>Title*</label>
+      <input appCusInput formControlName="title" placeholder="Enter title" />
+    </div>
 
-    <app-text-area formControlName="description" placeholder="Enter description" label="Description" />
-
+    <div class="control-group">
+      <label>Description</label>
+      <app-text-area formControlName="description" placeholder="Enter description" />
+    </div>
     <app-checkbox formControlName="important" label="Mark as important" />
 
-    @if (id) {
+    @if (isEdit) {
       <app-checkbox formControlName="completed" label="Mark as completed" />
     }
 
-    <button customButton type="submit" [disabled]="!form.dirty || form.invalid || saving()" [isLoading]="saving()">
-      Save
-    </button>
+    <button customButton type="submit" [disabled]="form.invalid || isLoading()" [isLoading]="isLoading()">Save</button>
   </form>
 } @else {
-  <app-spinner />
+  Loading....
 }

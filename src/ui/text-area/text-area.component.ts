@@ -1,25 +1,28 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, input, numberAttribute } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { BaseControlAccessor } from 'src/ui/directives/base-control-accessor.directive';
+import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
+import { InputDirective } from '../input/input.directive';
 
 @Component({
   selector: 'app-text-area',
-  templateUrl: './text-area.component.html',
-  styleUrl: './text-area.component.sass',
+  template: ` <textarea
+    appCusInput
+    [placeholder]="placeholder()"
+    [ngModel]="value()"
+    [rows]="rows()"
+    [disabled]="isDisabled()"
+    (ngModelChange)="updateValue($event)"
+  ></textarea>`,
+  styles: `
+    textarea
+      resize: none
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextAreaComponent),
-      multi: true
-    }
-  ]
+  imports: [FormsModule, InputDirective],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => TextAreaComponent), multi: true }]
 })
 export class TextAreaComponent extends BaseControlAccessor<string> {
-  public readonly label = input<string>('');
-  public readonly rows = input<number>(5);
+  public readonly rows = input<number, StrOrNum>(5, { transform: numberAttribute });
   public readonly placeholder = input<string>('');
-  public readonly isRequired = input<boolean, StrOrBool>(false, { transform: booleanAttribute });
 }

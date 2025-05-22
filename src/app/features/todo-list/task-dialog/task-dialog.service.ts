@@ -9,15 +9,15 @@ import { TaskModel } from '../model/task.model';
 export class TaskDialogService {
   public constructor(private taskApi: TaskApi) {}
 
-  public getTaskDetails(id: ID): Observable<TaskModel> {
+  public getDetails(id: ID): Observable<TaskModel> {
     return this.taskApi.getAll().pipe(map(tasks => tasks.find(t => t.id === id)!));
   }
 
-  public createTask(data: TaskAddModel): Observable<TaskModel> {
+  public create(data: TaskAddModel): Observable<TaskModel> {
     return this.taskApi.create(data);
   }
 
-  public updateTask(id: ID, data: Partial<TaskAddModel>): Observable<TaskModel> {
+  public update(id: ID, data: Partial<TaskAddModel>): Observable<TaskModel> {
     return this.taskApi.update(id, data);
   }
 }
