@@ -1,0 +1,30 @@
+@use 'colors'
+@use 'fonts'
+
+:host
+  display: flex
+  flex-direction: column
+  gap: 8px
+  margin-bottom: 16px
+
+.cus-input
+  height: 100%
+  width: 100%
+  padding: 12px
+  border-radius: 4px
+  background: transparent
+  color: colors.$primary-text
+  border: 1px solid colors.$outlined
+  line-height: 1.5
+  letter-spacing: 0.48px
+  font-size: 16px
+  outline: 0
+
+  &::placeholder
+    color: colors.$outlined
+
+  &:focus
+    border: 2px solid colors.$p-primary-900
+
+  &.error
+    border: 1px solid colors.$danger
