@@ -12,12 +12,8 @@
       <app-text-area formControlName="description" placeholder="Enter description" />
     </div>
 
-    <app-custom-select formControlName="priority" placeholder="Priority" [options]="priorityOptions()" />
-    <!--    <app-checkbox formControlName="important" label="Mark as important" />-->
-
-    <!--    @if (isEdit) {-->
-    <!--      <app-checkbox formControlName="completed" label="Mark as completed" />-->
-    <!--    }-->
+    <app-custom-select formControlName="priority" placeholder="Priority" [options]="(priorityOptions$ | async) || []" />
+    <app-custom-select formControlName="status" placeholder="Task Status" [options]="(statusOptions$ | async) || []" />
 
     <button customButton type="submit" [disabled]="form.invalid || isLoading()" [isLoading]="isLoading()">Save</button>
   </form>

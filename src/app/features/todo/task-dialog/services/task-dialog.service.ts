@@ -17,7 +17,7 @@ export class TaskDialogService {
     return this.taskApi.create(data);
   }
 
-  public update(id: ID, data: Partial<TaskModel>): Observable<TaskModel> {
-    return this.taskApi.update(id, data);
+  public update(data: Partial<TaskModel>): Observable<TaskModel> {
+    return this.taskApi.update(data.id!, data);
   }
 }

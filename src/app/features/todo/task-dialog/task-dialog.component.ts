@@ -1,9 +1,11 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, OnInit, Signal, signal } from '@angular/core';
+import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@shared/toast.service';
+import { StaticDataService } from '@shared/services/static-data.service';
+import { AsyncPipe } from '@angular/common';
 import { Button, CustomSelectComponent, InputDirective, SelectItemModel, TextAreaComponent } from '@ui';
-import { finalize } from 'rxjs';
+import { finalize, Observable, shareReplay } from 'rxjs';
 
 import { TaskDialogService } from './services/task-dialog.service';
 import { TaskModel } from '../model/task.model';
@@ -11,28 +13,24 @@ import { TaskModel } from '../model/task.model';
 @Component({
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',
-  imports: [ReactiveFormsModule, TextAreaComponent, Button, InputDirective, CustomSelectComponent],
-  providers: [TaskDialogService]
+  imports: [ReactiveFormsModule, TextAreaComponent, Button, InputDirective, CustomSelectComponent, AsyncPipe],
+  providers: [TaskDialogService, StaticDataService]
 })
 export class TaskDialogComponent implements OnInit {
   readonly #isFetching = signal(false);
   readonly #isLoading = signal(false);
 
-  protected readonly priorityOptions: Signal<SelectItemModel[]> = signal([
-    { id: 'High', name: 'High' },
-    { id: 'Medium', name: 'Medium' },
-    { id: 'Low', name: 'Low' }
-  ]).asReadonly();
-
-  public readonly isLoading = this.#isLoading.asReadonly();
-  public readonly isFetching = this.#isFetching.asReadonly();
-  public readonly form = new FormGroup<ControlsOf<TaskModel>>({
+  protected readonly isLoading = this.#isLoading.asReadonly();
+  protected readonly isFetching = this.#isFetching.asReadonly();
+  protected readonly form = new FormGroup({
     id: new FormControl<ID>('', { nonNullable: true }),
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true }),
     status: new FormControl<TaskStatus>('Todo', { nonNullable: true }),
     priority: new FormControl<TaskPriority>('Medium', { nonNullable: true })
   });
+  protected priorityOptions$: Observable<SelectItemModel[]>;
+  protected statusOptions$: Observable<SelectItemModel[]>;
 
   #hasSaved = false;
 
@@ -40,12 +38,19 @@ export class TaskDialogComponent implements OnInit {
     return Boolean(this.dialogData.id);
   }
 
+  get formValue(): TaskModel {
+    return this.form.getRawValue();
+  }
+
   public constructor(
     private service: TaskDialogService,
     private dialogRef: DialogRef<{ hasSaved: boolean }>,
     private toastService: ToastService,
+    private staticDataService: StaticDataService,
     @Inject(DIALOG_DATA) public dialogData: { id: Maybe<string> }
   ) {
+    this.priorityOptions$ = this.staticDataService.getListPriority().pipe(shareReplay(1));
+    this.statusOptions$ = this.staticDataService.getListTaskStatus().pipe(shareReplay(1));
     this.form.controls.id.setValue(dialogData.id || '');
   }
 
@@ -60,10 +65,9 @@ export class TaskDialogComponent implements OnInit {
       return;
     }
 
-    const formValue = this.form.getRawValue() as TaskModel;
     this.#isLoading.set(true);
 
-    const submitRequest$ = this.isEdit ? this.service.update(formValue.id, formValue) : this.service.create(formValue);
+    const submitRequest$ = this.isEdit ? this.service.update(this.formValue) : this.service.create(this.formValue);
     submitRequest$.pipe(finalize(() => this.#isLoading.set(false))).subscribe({
       next: value => {
         this.#updateStatesAfterSaved(value);
