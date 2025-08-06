@@ -1,6 +1,6 @@
 {
   "/api/v1": {
-    "target": "https://68206ca4259dad2655ac8170.mockapi.io/api/v1",
+    "target": "https://689319d4c49d24bce8696e6c.mockapi.io/api/v1",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",

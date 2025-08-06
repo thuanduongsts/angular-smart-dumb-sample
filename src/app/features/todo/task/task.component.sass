@@ -1,0 +1,58 @@
+@use 'colors'
+@use 'typography' as *
+@use 'shadows'
+
+:host
+  display: flex
+  box-shadow: shadows.$shadow-1
+  border-radius: 8px
+  background: colors.$on-secondary-container
+
+article
+  display: flex
+  flex-direction: column
+  gap: 4px
+  width: 100%
+  padding: 24px
+  color: colors.$primary-text
+
+  header
+    display: flex
+    justify-content: space-between
+
+    h3
+      @extend %title-lg
+      display: inline-flex
+      column-gap: 8px
+      margin: 0
+
+      &:hover
+        cursor: pointer
+        text-decoration: underline
+
+    .delete-icon
+      cursor: pointer
+      background: colors.$danger
+
+  p
+    margin-top: 0
+    @extend %body-lg
+
+  footer
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .priority
+      display: flex
+      align-items: center
+      gap: 4px
+
+    .priority.high  app-icon
+      background: colors.$danger
+
+    .priority.medium  app-icon
+      background: colors.$warning
+
+    .priority.low  app-icon
+      background: colors.$success

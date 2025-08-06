@@ -5,7 +5,7 @@ import { ToastService } from '@shared/toast.service';
 import { Button, CheckboxComponent, InputDirective, TextAreaComponent } from '@ui';
 import { finalize } from 'rxjs';
 
-import { TaskDialogService } from './task-dialog.service';
+import { TaskDialogService } from './services/task-dialog.service';
 import { TaskModel } from '../model/task.model';
 
 @Component({
@@ -20,12 +20,12 @@ export class TaskDialogComponent implements OnInit {
 
   public readonly isLoading = this.#isLoading.asReadonly();
   public readonly isFetching = this.#isFetching.asReadonly();
-  public readonly form = new FormGroup({
+  public readonly form = new FormGroup<ControlsOf<TaskModel>>({
     id: new FormControl<ID>('', { nonNullable: true }),
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true }),
-    important: new FormControl(false, { nonNullable: true }),
-    completed: new FormControl(false, { nonNullable: true })
+    status: new FormControl<TaskStatus>('Todo', { nonNullable: true }),
+    priority: new FormControl<TaskPriority>('Medium', { nonNullable: true })
   });
 
   #hasSaved = false;
@@ -54,7 +54,7 @@ export class TaskDialogComponent implements OnInit {
       return;
     }
 
-    const formValue = this.form.getRawValue();
+    const formValue = this.form.getRawValue() as TaskModel;
     this.#isLoading.set(true);
 
     const submitRequest$ = this.isEdit ? this.service.update(formValue.id, formValue) : this.service.create(formValue);

@@ -1,7 +1,7 @@
 export interface TaskModel {
-  id: number;
+  id: ID;
   title: string;
   description: string;
-  completed: boolean;
-  important: boolean;
+  priority: TaskPriority;
+  status: TaskStatus;
 }

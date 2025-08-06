@@ -1,0 +1,18 @@
+<h1 appPageTitle>Todo App</h1>
+
+<button customButton (click)="openTaskDialog(null)">
+  <app-icon [name]="IconEnum.PLUS" />
+  New task
+</button>
+
+<section class="task-lists">
+  @for (task of tasks(); track task.id) {
+    <app-task [task]="task" (taskEdit)="openTaskDialog(task.id)" (taskRemove)="removeTask(task)" />
+  }
+
+  @if (isLoading()) {
+    @for (_ of [].constructor(2); track $index) {
+      <app-skeleton height="140px" />
+    }
+  }
+</section>

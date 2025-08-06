@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { TaskApi } from '@core/task.api';
 import { map, Observable } from 'rxjs';
 
-import { TaskAddModel } from '../model/task-add.model';
-import { TaskModel } from '../model/task.model';
+import { TaskModel } from '../../model/task.model';
+import { TaskAddModel } from '../models/task-add.model';
 
 @Injectable()
 export class TaskDialogService {
@@ -17,7 +17,7 @@ export class TaskDialogService {
     return this.taskApi.create(data);
   }
 
-  public update(id: ID, data: Partial<TaskAddModel>): Observable<TaskModel> {
+  public update(id: ID, data: Partial<TaskModel>): Observable<TaskModel> {
     return this.taskApi.update(id, data);
   }
 }

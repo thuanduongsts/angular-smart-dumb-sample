@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TaskDAO } from './task.dao';
 
 @Injectable({ providedIn: 'root' })
 export class TaskApi {
@@ -21,7 +20,7 @@ export class TaskApi {
     return this.httpClient.patch<TaskDAO>(`${this.#apiUrl}/${id}`, body);
   }
 
-  public delete(id: ID): Observable<unknown> {
+  public remove(id: ID): Observable<unknown> {
     return this.httpClient.delete<unknown>(`${this.#apiUrl}/${id}`);
   }
 }
