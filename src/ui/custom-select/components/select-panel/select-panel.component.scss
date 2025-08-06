@@ -1,0 +1,52 @@
+@use 'colors';
+@use 'typography';
+@use 'fonts';
+@use 'shadows';
+
+$option-text-color: var(--mat-option-label-text-color);
+
+:host {
+  display: block;
+  width: 100%;
+  max-height: 275px;
+  outline: 0;
+  overflow: auto;
+  padding: 8px 0;
+  border-radius: 4px;
+  background: white;
+  box-shadow: shadows.$shadow-1;
+
+  .option {
+    color: $option-text-color;
+    padding: 0 16px;
+    min-height: 48px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+
+    &.padding-multiple-options {
+      padding: 0 5px;
+    }
+
+    &:hover:not(.disabled) {
+      background-color: var(--app-option-hover-color);
+    }
+
+    &:focus:not(.disabled),
+    &.selected:not(.disabled) {
+      background-color: var(--app-option-focus-color);
+      color: var(--mat-option-selected-state-label-text-color, colors.$on-secondary-container);
+    }
+  }
+
+  .empty-option {
+    color: $option-text-color;
+    padding: 0 16px;
+  }
+}

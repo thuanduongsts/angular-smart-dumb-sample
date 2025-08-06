@@ -11,11 +11,13 @@
       <label>Description</label>
       <app-text-area formControlName="description" placeholder="Enter description" />
     </div>
-<!--    <app-checkbox formControlName="important" label="Mark as important" />-->
 
-<!--    @if (isEdit) {-->
-<!--      <app-checkbox formControlName="completed" label="Mark as completed" />-->
-<!--    }-->
+    <app-custom-select formControlName="priority" placeholder="Priority" [options]="priorityOptions()" />
+    <!--    <app-checkbox formControlName="important" label="Mark as important" />-->
+
+    <!--    @if (isEdit) {-->
+    <!--      <app-checkbox formControlName="completed" label="Mark as completed" />-->
+    <!--    }-->
 
     <button customButton type="submit" [disabled]="form.invalid || isLoading()" [isLoading]="isLoading()">Save</button>
   </form>

@@ -1,0 +1,15 @@
+@use 'colors';
+
+@mixin text-ellipsis-with-lines($maxLine) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $maxLine;
+  -webkit-box-orient: vertical;
+}
+
+@mixin text-ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

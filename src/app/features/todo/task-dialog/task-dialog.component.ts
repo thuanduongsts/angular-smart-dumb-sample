@@ -1,8 +1,8 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { Component, Inject, OnInit, Signal, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@shared/toast.service';
-import { Button, CheckboxComponent, InputDirective, TextAreaComponent } from '@ui';
+import { Button, CustomSelectComponent, InputDirective, SelectItemModel, TextAreaComponent } from '@ui';
 import { finalize } from 'rxjs';
 
 import { TaskDialogService } from './services/task-dialog.service';
@@ -11,12 +11,18 @@ import { TaskModel } from '../model/task.model';
 @Component({
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.sass',
-  imports: [ReactiveFormsModule, TextAreaComponent, CheckboxComponent, Button, InputDirective],
+  imports: [ReactiveFormsModule, TextAreaComponent, Button, InputDirective, CustomSelectComponent],
   providers: [TaskDialogService]
 })
 export class TaskDialogComponent implements OnInit {
   readonly #isFetching = signal(false);
   readonly #isLoading = signal(false);
+
+  protected readonly priorityOptions: Signal<SelectItemModel[]> = signal([
+    { id: 'High', name: 'High' },
+    { id: 'Medium', name: 'Medium' },
+    { id: 'Low', name: 'Low' }
+  ]).asReadonly();
 
   public readonly isLoading = this.#isLoading.asReadonly();
   public readonly isFetching = this.#isFetching.asReadonly();
