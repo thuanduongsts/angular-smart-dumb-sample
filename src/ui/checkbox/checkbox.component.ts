@@ -6,12 +6,13 @@ import { BaseControlAccessor } from '../directives/base-control-accessor.directi
 @Component({
   selector: 'app-checkbox',
   template: `
-    <label>
-      <input type="checkbox" [ngModel]="value()" (ngModelChange)="updateValue($event)" />
+    <label [class.checked]="value()">
+      <span></span>
       @if (label()) {
         {{ label() }}
       }
     </label>
+    <input type="checkbox" [ngModel]="value()" (ngModelChange)="updateValue($event)" />
   `,
   styleUrl: './checkbox.component.sass',
   imports: [FormsModule],

@@ -32,7 +32,7 @@ export class FilterComponent implements OnInit {
   public ngOnInit(): void {
     this.form.setValue(this.initFilter());
     this.form.valueChanges
-      .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef), distinctUntilChanged(isEqual))
+      .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef), distinctUntilChanged(isEqual))
       .subscribe({
         next: () => this.filterChanges.emit(this.form.getRawValue())
       });
