@@ -3,7 +3,7 @@ import { IconComponent, IconEnum } from '@ui';
 import { NgClass } from '@angular/common';
 import { TaskStatusDirective } from '@shared/directives/task-status.directive';
 
-import { TaskModel } from '../model/task.model';
+import { TaskModel } from '../../model/task.model';
 
 @Component({
   selector: 'app-task',

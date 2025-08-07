@@ -19,8 +19,8 @@ import {
   tap
 } from 'rxjs';
 
-import { TaskDialogComponent } from './task-dialog/task-dialog.component';
-import { TaskComponent } from './task/task.component';
+import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
+import { TaskComponent } from './components/task/task.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
 

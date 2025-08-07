@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TaskApi } from '@core/task.api';
 import { map, Observable } from 'rxjs';
 
-import { TaskModel } from '../../model/task.model';
+import { TaskModel } from '../../../model/task.model';
 import { TaskAddModel } from '../models/task-add.model';
 
 @Injectable()

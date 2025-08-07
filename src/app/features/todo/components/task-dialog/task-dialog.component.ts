@@ -15,8 +15,8 @@ import {
 } from '@ui';
 import { finalize, Observable, shareReplay } from 'rxjs';
 
+import { TaskModel } from '../../model/task.model';
 import { TaskDialogService } from './services/task-dialog.service';
-import { TaskModel } from '../model/task.model';
 
 @Component({
   templateUrl: './task-dialog.component.html',
