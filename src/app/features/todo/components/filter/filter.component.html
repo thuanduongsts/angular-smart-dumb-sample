@@ -1,0 +1,5 @@
+<form [formGroup]="form">
+  <input appCusInput formControlName="searchTerm" placeholder="Search by name" />
+  <app-custom-select isMultiple="true" [options]="statusOptions()" formControlName="statuses" />
+  <app-custom-select [options]="sortOptions()" formControlName="sort" />
+</form>

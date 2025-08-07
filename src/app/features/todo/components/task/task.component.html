@@ -1,0 +1,23 @@
+<article class="task-content">
+  <header>
+    <h4 (click)="edit()">{{ task().title }}</h4>
+    <app-icon role="button" class="delete-icon" [name]="IconEnum.DELETE" (click)="remove()" />
+  </header>
+
+  <p>{{ task().description }}</p>
+
+  <footer>
+    <section
+      class="priority"
+      [ngClass]="{
+        high: task().priority == 'High',
+        medium: task().priority == 'Medium',
+        low: task().priority == 'Low'
+      }"
+    >
+      <app-icon [name]="IconEnum.PRIORITY_FLAG" />
+      <span>{{ task().priority }}</span>
+    </section>
+    <span appTaskStatus [status]="task().status">{{ task().status }}</span>
+  </footer>
+</article>

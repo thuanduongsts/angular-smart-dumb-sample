@@ -25,4 +25,8 @@ import { InputDirective } from '../input/input.directive';
 export class TextAreaComponent extends BaseControlAccessor<string> {
   public readonly rows = input<number, StrOrNum>(5, { transform: numberAttribute });
   public readonly placeholder = input<string>('');
+
+  protected getDefaultValue(): string {
+    return '';
+  }
 }

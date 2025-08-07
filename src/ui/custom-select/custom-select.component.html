@@ -1,0 +1,56 @@
+<div class="select-trigger" cdkOverlayOrigin #control #trigger="cdkOverlayOrigin">
+  @if (placeholder() && !selectedOptions().length) {
+    <span class="placeholder">
+      {{ placeholder() }}
+    </span>
+  } @else {
+    @if (!selectedValuesTemplate()) {
+      <ng-container *ngTemplateOutlet="defaultSelectedValues" />
+    } @else {
+      <ng-container
+        *ngTemplateOutlet="selectedValuesTemplate()!.templateRef; context: { values: displaySelectedValues() }"
+      />
+    }
+  }
+  <app-icon [name]="IconEnum.ARROW_DROPDOWN" [size]="24" />
+</div>
+
+<ng-template #defaultSelectedValues>
+  <span class="selected-values">
+    {{ displaySelectedValues() | stringJoin }}
+  </span>
+</ng-template>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isPanelOpen()"
+  [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+  [cdkConnectedOverlayPositions]="[
+    {
+      offsetY: 2,
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top'
+    },
+    {
+      offsetY: -2,
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom'
+    }
+  ]"
+>
+  <app-select-panel
+    [style.width.px]="control.offsetWidth"
+    [options]="options()"
+    [class]="panelClass()"
+    [selectedOptions]="selectedOptions()"
+    [focusIndex]="focusIndex()"
+    [isMultiple]="isMultiple()"
+    [customOptionTemplate]="optionTemplate()"
+    (selectChange)="selectChange($event.event, $event.option, $event.index)"
+  />
+</ng-template>

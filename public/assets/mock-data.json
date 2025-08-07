@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Attend a wedding",
+    "description": "Any places without invitation",
+    "status": "Completed",
+    "priority": "Low"
+  },
+  {
+    "id": 2,
+    "title": "Setup product environment",
+    "description": "Setup product environment",
+    "status": "In Progress",
+    "priority": "High"
+  },
+  {
+    "id": 2,
+    "title": "[FE]: Implement todo details page",
+    "description": "Implement todo details page",
+    "status": "Todo",
+    "priority": "Medium"
+  }
+]

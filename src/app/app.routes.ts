@@ -8,6 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'todo-list',
-    loadComponent: () => import('./features/todo-list/todo-list.component').then(c => c.TodoListComponent)
+    loadComponent: () => import('@features/todo/todo.component').then(c => c.TodoComponent)
   }
 ];

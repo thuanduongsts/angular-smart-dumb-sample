@@ -2,6 +2,11 @@
 @use 'colors'
 @use 'cus-input'
 
+:root
+  --app-option-hover-color: #{rgba(colors.$p-primary-200, 0.5)}
+  --app-option-focus-color: #{rgba(colors.$p-primary-500, 0.5)}
+  --app-select-disabled-trigger-color: #{colors.$outlined}
+
 *
   box-sizing: border-box
   font-family: fonts.$open-sans
@@ -12,3 +17,7 @@ body
 .cdk-dialog-container:focus-visible
   outline: 0
 
+
+fieldset
+  border: none
+  padding: 0

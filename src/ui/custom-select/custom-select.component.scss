@@ -1,0 +1,75 @@
+@use 'colors';
+@use 'typography';
+@use 'fonts';
+@use 'mixines';
+
+$disable-color: var(--app-select-disabled-trigger-color);
+
+:host {
+  position: relative;
+  outline: 1px solid #74777f;
+  border-radius: 4px;
+
+  &.select-disabled {
+    color: $disable-color;
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+
+    app-icon {
+      background-color: $disable-color;
+    }
+  }
+
+  &.invalid,
+  &.invalid:focus,
+  &.invalid:focus-visible,
+  &.invalid .select-trigger .placeholder {
+    outline-color: colors.$danger;
+    color: colors.$danger;
+
+    app-icon {
+      background-color: colors.$danger;
+    }
+  }
+
+  &:hover {
+    outline-color: var(--mdc-outlined-text-field-hover-outline-color);
+  }
+
+  &:focus,
+  &:focus-within,
+  &:focus-visible {
+    outline-color: var(--app-focus-control-color);
+    outline-width: 2px;
+
+    app-icon {
+      background-color: var(--app-focus-control-color);
+    }
+  }
+}
+
+.select-trigger {
+  display: inline-flex;
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  padding: 16px 10px 16px 16px;
+  font-size: 16px;
+
+  .selected-values {
+    @extend %body-lg;
+    @include mixines.text-ellipsis();
+    color: var(--mat-select-enabled-trigger-text-color);
+    letter-spacing: var(--mat-select-trigger-text-tracking);
+  }
+
+  .placeholder {
+    color: colors.$outlined;
+  }
+
+  app-icon {
+    margin-left: auto;
+    width: 24px;
+  }
+}

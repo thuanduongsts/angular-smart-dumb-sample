@@ -36,5 +36,6 @@ export enum IconEnum {
   SORT_ASC = 'sort-asc',
   SORT_DESC = 'sort-desc',
   ARROW_FORWARD = 'arrow-forward',
-  ARROW_BACK = 'arrow-back'
+  ARROW_BACK = 'arrow-back',
+  PRIORITY_FLAG = 'priority-flag'
 }

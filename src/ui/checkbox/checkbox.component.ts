@@ -5,7 +5,15 @@ import { BaseControlAccessor } from '../directives/base-control-accessor.directi
 
 @Component({
   selector: 'app-checkbox',
-  templateUrl: './checkbox.component.html',
+  template: `
+    <label [class.checked]="value()">
+      <span></span>
+      @if (label()) {
+        {{ label() }}
+      }
+    </label>
+    <input type="checkbox" [ngModel]="value()" (ngModelChange)="updateValue($event)" />
+  `,
   styleUrl: './checkbox.component.sass',
   imports: [FormsModule],
   providers: [
@@ -18,5 +26,9 @@ import { BaseControlAccessor } from '../directives/base-control-accessor.directi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxComponent extends BaseControlAccessor<boolean> {
-  public readonly label = input.required<string>();
+  public readonly label = input<string>();
+
+  protected getDefaultValue(): boolean {
+    return false;
+  }
 }
