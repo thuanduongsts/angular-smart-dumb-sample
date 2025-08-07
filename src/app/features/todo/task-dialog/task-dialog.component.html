@@ -1,22 +1,49 @@
-@if (!isFetching()) {
-  <form [formGroup]="form" (ngSubmit)="submitTask()">
-    <h2>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h2>
-    <div class="close" (click)="closeDialog()">&times;</div>
-    <div class="control-group">
-      <label>Title*</label>
-      <input appCusInput formControlName="title" placeholder="Enter title" />
-    </div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <header>
+    <h3 appSectionTitle>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h3>
+    <button customButton cusVariant="text" cusType="secondary" class="close" (click)="close()">&times;</button>
+  </header>
 
-    <div class="control-group">
-      <label>Description</label>
-      <app-text-area formControlName="description" placeholder="Enter description" />
-    </div>
+  @if (!isFetching()) {
+    <fieldset>
+      <div class="control-group">
+        <label>Title *</label>
+        <input appCusInput formControlName="title" placeholder="Enter title" />
+      </div>
 
-    <app-custom-select formControlName="priority" placeholder="Priority" [options]="(priorityOptions$ | async) || []" />
-    <app-custom-select formControlName="status" placeholder="Task Status" [options]="(statusOptions$ | async) || []" />
+      <div class="control-group">
+        <label>Description</label>
+        <app-text-area formControlName="description" placeholder="Enter description" />
+      </div>
 
+      <div class="control-group">
+        <label>Priority *</label>
+        <app-custom-select
+          formControlName="priority"
+          placeholder="Priority"
+          [options]="(priorityOptions$ | async) || []"
+        />
+      </div>
+
+      <div class="control-group">
+        <label>Status *</label>
+        <app-custom-select
+          formControlName="status"
+          placeholder="Task Status"
+          [options]="(statusOptions$ | async) || []"
+        />
+      </div>
+    </fieldset>
+  } @else {
+    <fieldset>
+      <app-skeleton width="100%" height="70px"></app-skeleton>
+      <app-skeleton width="100%" height="175px"></app-skeleton>
+      <app-skeleton width="100%" height="70px"></app-skeleton>
+      <app-skeleton width="100%" height="70px"></app-skeleton>
+    </fieldset>
+  }
+
+  <footer>
     <button customButton type="submit" [disabled]="form.invalid || isLoading()" [isLoading]="isLoading()">Save</button>
-  </form>
-} @else {
-  Loading....
-}
+  </footer>
+</form>

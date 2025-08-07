@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IconComponent, IconEnum } from '@ui';
+import { NgClass } from '@angular/common';
 import { TaskStatusDirective } from '@shared/directives/task-status.directive';
 
 import { TaskModel } from '../model/task.model';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-task',

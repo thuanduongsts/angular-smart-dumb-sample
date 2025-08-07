@@ -40,13 +40,13 @@ export class TodoComponent implements OnInit {
     this.#setupRemoveTaskStream();
   }
 
-  protected openTaskDialog(id: Nullable<ID>): void {
-    const dialogRef = this.dialog.open<{ hasSaved: boolean }>(TaskDialogComponent, {
-      data: { id },
+  protected openTaskDialog(taskId: ID = ''): void {
+    const dialogRef = this.dialog.open<boolean>(TaskDialogComponent, {
+      data: taskId,
       width: '600px'
     });
 
-    dialogRef.closed.pipe(filter(value => value !== undefined && value.hasSaved)).subscribe(() => this.#setupTasks());
+    dialogRef.closed.pipe(filter(Boolean)).subscribe(() => this.#setupTasks());
   }
 
   protected removeTask(task: TaskModel): void {
