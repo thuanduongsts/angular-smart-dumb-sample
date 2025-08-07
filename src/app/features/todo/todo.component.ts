@@ -5,7 +5,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Button, IconComponent, IconEnum, SkeletonComponent } from '@ui';
 import { PageTitleDirective } from '@shared/directives/page-title.directive';
 import { ToastService } from '@shared/toast.service';
-import { catchError, distinct, EMPTY, filter, finalize, map, mergeMap, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  distinct,
+  EMPTY,
+  filter,
+  finalize,
+  map,
+  mergeMap,
+  Subject,
+  switchMap,
+  tap
+} from 'rxjs';
 
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { TaskComponent } from './task/task.component';
@@ -20,6 +32,7 @@ import { TodoService } from './services/todo.service';
   providers: [TodoService]
 })
 export class TodoComponent implements OnInit {
+  readonly #triggerFetchTasks$ = new BehaviorSubject<void>(undefined);
   readonly #removeTask$ = new Subject<TaskModel>();
   readonly #tasks = signal<TaskModel[]>([]);
   readonly #isLoading = signal<boolean>(true);
@@ -43,10 +56,13 @@ export class TodoComponent implements OnInit {
   protected openTaskDialog(taskId: ID = ''): void {
     const dialogRef = this.dialog.open<boolean>(TaskDialogComponent, {
       data: taskId,
-      width: '600px'
+      width: '600px',
+      disableClose: true
     });
 
-    dialogRef.closed.pipe(filter(Boolean)).subscribe(() => this.#setupTasks());
+    dialogRef.closed.pipe(filter(Boolean)).subscribe({
+      next: () => this.#triggerFetchTasks$.next()
+    });
   }
 
   protected removeTask(task: TaskModel): void {
@@ -54,10 +70,15 @@ export class TodoComponent implements OnInit {
   }
 
   #setupTasks(): void {
-    this.#isLoading.set(true);
-    this.todoService
-      .getTasks()
-      .pipe(finalize(() => this.#isLoading.set(false)))
+    this.#triggerFetchTasks$
+      .pipe(
+        tap(() => {
+          this.#tasks.set([]);
+          this.#isLoading.set(true);
+        }),
+        switchMap(() => this.todoService.getTasks().pipe(finalize(() => this.#isLoading.set(false)))),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: tasks => this.#tasks.set(tasks)
       });
