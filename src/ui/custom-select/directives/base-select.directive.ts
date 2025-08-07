@@ -35,9 +35,10 @@ export abstract class BaseSelectDirective extends BaseControlAccessor<ID[], ID |
   protected readonly searchControl = new FormControl<string>('');
 
   protected readonly isPanelOpen = signal(false);
-  protected readonly selectedOptions = computed(() =>
-    this.options().filter(e => this.#selectedValues()?.includes(e.id))
-  );
+  protected readonly selectedOptions = computed(() => {
+    console.log('this.options()', this.options(), this.#selectedValues());
+    return this.options().filter(e => this.#selectedValues()?.includes(e.id));
+  });
   protected readonly focusIndex = this.innerFocusedIndex.asReadonly();
   protected readonly filteredOptions = this.innerFilteredOptions.asReadonly();
   protected readonly displaySelectedValues = computed(() => this.selectedOptions().map(it => it.name));

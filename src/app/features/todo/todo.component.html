@@ -1,5 +1,12 @@
 <h1 appPageTitle>Todo App</h1>
 
+<app-filter
+  [sortOptions]="sortOptions()"
+  [statusOptions]="(statusOptions$ | async) || []"
+  [initFilter]="filter()"
+  (filterChanges)="handleFilterChange($event)"
+/>
+
 <button customButton (click)="openTaskDialog()">
   <app-icon [name]="IconEnum.PLUS" />
   New task

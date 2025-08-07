@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 
 import { StaticDataModel } from '../models/static-data.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class StaticDataService {
   public getListPriority(): Observable<StaticDataModel[]> {
     return of([
