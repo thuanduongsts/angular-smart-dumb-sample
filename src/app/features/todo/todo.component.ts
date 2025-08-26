@@ -32,6 +32,7 @@ import { FilterModel } from './components/filter/filter.model';
 import { FilterComponent } from './components/filter/filter.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
+import { TaskListComponent } from '@features/todo/components/task-list/task-list.component';
 
 @Component({
   templateUrl: './todo.component.html',
@@ -45,7 +46,8 @@ import { TodoService } from './services/todo.service';
     TaskComponent,
     SkeletonComponent,
     FilterComponent,
-    AsyncPipe
+    AsyncPipe,
+    TaskListComponent
   ],
   providers: [TodoService, StaticDataService]
 })

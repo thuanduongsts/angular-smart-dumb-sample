@@ -12,14 +12,8 @@
   New task
 </button>
 
-<section class="task-lists">
+<app-task-list [isLoading]="isLoading()">
   @for (task of tasks(); track task.id) {
     <app-task [task]="task" (taskEdit)="openTaskDialog(task.id)" (taskRemove)="removeTask(task)" />
   }
-
-  @if (isLoading()) {
-    @for (_ of [].constructor(2); track $index) {
-      <app-skeleton height="140px" />
-    }
-  }
-</section>
+</app-task-list>
