@@ -13,7 +13,13 @@ import { SkeletonComponent } from '@ui';
       <ng-content select="app-task" />
     }
   `,
-  styleUrl: './task-list.component.sass',
+  styles: `
+    :host
+      margin-top: 24px
+      display: flex
+      flex-direction: column
+      gap: 24px
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent {

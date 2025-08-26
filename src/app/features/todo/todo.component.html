@@ -2,7 +2,7 @@
 
 <app-filter
   [sortOptions]="sortOptions()"
-  [statusOptions]="(statusOptions$ | async) || []"
+  [statusOptions]="statusOptions()"
   [initFilter]="filter()"
   (filterChanges)="handleFilterChange($event)"
 />
