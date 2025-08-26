@@ -13,3 +13,5 @@ export * from './custom-select/directives/custom-option.directive';
 export * from './custom-select/directives/custom-selected-values.directive';
 export * from './custom-select/custom-select.component';
 export { SelectItemModel } from './custom-select/models/select-item.model';
+
+export * from './typography/typography.component';

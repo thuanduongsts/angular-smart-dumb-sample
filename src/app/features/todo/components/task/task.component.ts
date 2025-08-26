@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { IconComponent, IconEnum } from '@ui';
+import { IconComponent, IconEnum, TypographyComponent } from '@ui';
 import { NgClass } from '@angular/common';
 import { TaskStatusDirective } from '@shared/directives/task-status.directive';
 
@@ -9,7 +9,7 @@ import { TaskModel } from '../../model/task.model';
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrl: './task.component.sass',
-  imports: [IconComponent, TaskStatusDirective, NgClass],
+  imports: [IconComponent, TaskStatusDirective, NgClass, TypographyComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskComponent {

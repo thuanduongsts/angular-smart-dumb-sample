@@ -3,7 +3,6 @@ import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@shared/toast.service';
 import { StaticDataService } from '@shared/services/static-data.service';
-import { SectionTitleDirective } from '@shared/directives/section-title.directive';
 import { AsyncPipe } from '@angular/common';
 import {
   Button,
@@ -11,7 +10,8 @@ import {
   InputComponent,
   SelectItemModel,
   SkeletonComponent,
-  TextAreaComponent
+  TextAreaComponent,
+  TypographyComponent
 } from '@ui';
 import { finalize, Observable, shareReplay } from 'rxjs';
 
@@ -29,7 +29,7 @@ import { TaskDialogService } from './services/task-dialog.service';
     CustomSelectComponent,
     AsyncPipe,
     SkeletonComponent,
-    SectionTitleDirective
+    TypographyComponent
   ],
   providers: [TaskDialogService, StaticDataService]
 })

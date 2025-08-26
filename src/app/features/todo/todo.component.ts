@@ -2,8 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Button, IconComponent, IconEnum, SelectItemModel, SkeletonComponent } from '@ui';
-import { PageTitleDirective } from '@shared/directives/page-title.directive';
+import { Button, IconComponent, IconEnum, SelectItemModel, TypographyComponent } from '@ui';
 import { ToastService } from '@shared/toast.service';
 import { StaticDataService } from '@shared/services/static-data.service';
 import { AsyncPipe } from '@angular/common';
@@ -32,7 +31,7 @@ import { FilterModel } from './components/filter/filter.model';
 import { FilterComponent } from './components/filter/filter.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
-import { TaskListComponent } from '@features/todo/components/task-list/task-list.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
 
 @Component({
   templateUrl: './todo.component.html',
@@ -42,12 +41,11 @@ import { TaskListComponent } from '@features/todo/components/task-list/task-list
     FormsModule,
     Button,
     IconComponent,
-    PageTitleDirective,
     TaskComponent,
-    SkeletonComponent,
     FilterComponent,
     AsyncPipe,
-    TaskListComponent
+    TaskListComponent,
+    TypographyComponent
   ],
   providers: [TodoService, StaticDataService]
 })
