@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, forwardRef, input, numberAttribute 
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
-import { InputDirective } from '../input/input.directive';
+import { InputComponent } from '../input/input.component';
 
 @Component({
   selector: 'app-text-area',
@@ -19,7 +19,7 @@ import { InputDirective } from '../input/input.directive';
       resize: none
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, InputDirective],
+  imports: [FormsModule, InputComponent],
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => TextAreaComponent), multi: true }]
 })
 export class TextAreaComponent extends BaseControlAccessor<string> {

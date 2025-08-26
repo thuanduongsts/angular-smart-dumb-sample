@@ -1,6 +1,6 @@
 export { Button } from './button/button.component';
 export { ButtonVariant } from './button/button-variant.model';
-export { InputDirective } from './input/input.directive';
+export { InputComponent } from './input/input.component';
 
 export * from './icon/icon.component';
 export * from './icon/icon.enum';

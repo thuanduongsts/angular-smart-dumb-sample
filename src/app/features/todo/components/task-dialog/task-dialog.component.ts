@@ -8,7 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import {
   Button,
   CustomSelectComponent,
-  InputDirective,
+  InputComponent,
   SelectItemModel,
   SkeletonComponent,
   TextAreaComponent
@@ -25,7 +25,7 @@ import { TaskDialogService } from './services/task-dialog.service';
     ReactiveFormsModule,
     TextAreaComponent,
     Button,
-    InputDirective,
+    InputComponent,
     CustomSelectComponent,
     AsyncPipe,
     SkeletonComponent,
