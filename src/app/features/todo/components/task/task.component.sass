@@ -1,5 +1,4 @@
 @use 'colors'
-@use 'typography' as *
 @use 'shadows'
 
 :host
@@ -7,9 +6,6 @@
   box-shadow: shadows.$shadow-1
   border-radius: 8px
   background: colors.$on-secondary-container
-
-article
-  display: flex
   flex-direction: column
   gap: 4px
   width: 100%
@@ -21,7 +17,6 @@ article
     justify-content: space-between
 
     h4
-      @extend %title-lg
       display: inline-flex
       column-gap: 8px
       margin: 0
@@ -35,7 +30,6 @@ article
       background: colors.$danger
 
   p
-    @extend %body-lg
     margin-top: 0
 
   footer

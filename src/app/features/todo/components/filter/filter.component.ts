@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CustomSelectComponent, InputDirective, SelectItemModel } from '@ui';
+import { CustomSelectComponent, InputComponent, SelectItemModel } from '@ui';
+import { transformValueToSelectItems } from '@shared/converters/transform-value-to-select-items.converter';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { isEqual } from 'lodash-es';
 
@@ -9,13 +10,15 @@ import { FilterModel } from './filter.model';
 
 @Component({
   selector: 'app-filter',
-  imports: [FormsModule, InputDirective, ReactiveFormsModule, CustomSelectComponent],
+  imports: [FormsModule, InputComponent, ReactiveFormsModule, CustomSelectComponent],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterComponent implements OnInit {
-  public readonly statusOptions = input.required<SelectItemModel[]>();
+  public readonly statusOptions = input.required<SelectItemModel[], TaskStatus[]>({
+    transform: value => transformValueToSelectItems(value)
+  });
   public readonly sortOptions = input.required<SelectItemModel[]>();
   public readonly initFilter = input.required<FilterModel>();
 

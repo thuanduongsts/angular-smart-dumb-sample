@@ -1,8 +1,8 @@
-<h1 appPageTitle>Todo App</h1>
+<h1 cusTitle>Todo App</h1>
 
 <app-filter
   [sortOptions]="sortOptions()"
-  [statusOptions]="(statusOptions$ | async) || []"
+  [statusOptions]="statusOptions()"
   [initFilter]="filter()"
   (filterChanges)="handleFilterChange($event)"
 />
@@ -12,14 +12,8 @@
   New task
 </button>
 
-<section class="task-lists">
+<app-task-list [isLoading]="isLoading()">
   @for (task of tasks(); track task.id) {
     <app-task [task]="task" (taskEdit)="openTaskDialog(task.id)" (taskRemove)="removeTask(task)" />
   }
-
-  @if (isLoading()) {
-    @for (_ of [].constructor(2); track $index) {
-      <app-skeleton height="140px" />
-    }
-  }
-</section>
+</app-task-list>

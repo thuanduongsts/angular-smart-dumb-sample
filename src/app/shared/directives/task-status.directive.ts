@@ -1,8 +1,6 @@
-import { computed, Directive, HostBinding, input } from '@angular/core';
+import { computed, Directive, effect, ElementRef, input, Renderer2 } from '@angular/core';
 
-@Directive({
-  selector: '[appTaskStatus]'
-})
+@Directive({ selector: '[appTaskStatus]' })
 export class TaskStatusDirective {
   readonly #backgroundColor = computed(() => {
     switch (this.status()) {
@@ -17,17 +15,24 @@ export class TaskStatusDirective {
 
   public readonly status = input.required<TaskStatus>();
 
-  @HostBinding('style')
-  get statusStyle(): Record<string, string> {
-    return {
-      color: 'white',
-      padding: '6px 8px',
-      'background-color': this.#backgroundColor(),
-      'border-radius': '6px',
-      'font-size': '14px',
-      'font-weight': '600',
-      'line-height': '20px',
-      'letter-spacing': '0.1px',
-    };
+  public constructor(
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {
+    effect(() => {
+      const styles: Record<string, string> = {
+        color: 'white',
+        padding: '6px 8px',
+        'background-color': this.#backgroundColor(),
+        'border-radius': '6px',
+        'font-size': '14px',
+        'font-weight': '600',
+        'line-height': '20px',
+        'letter-spacing': '0.1px'
+      };
+      for (const [key, value] of Object.entries(styles)) {
+        this.renderer.setStyle(this.el.nativeElement, key, value);
+      }
+    });
   }
 }

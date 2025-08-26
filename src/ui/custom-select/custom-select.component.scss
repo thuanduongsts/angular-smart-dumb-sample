@@ -1,6 +1,5 @@
 @use 'colors';
-@use 'typography';
-@use 'fonts';
+@use 'typography' as *;
 @use 'mixines';
 
 $disable-color: var(--app-select-disabled-trigger-color);

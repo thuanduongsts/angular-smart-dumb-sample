@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <header>
-    <h3 appSectionTitle>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h3>
+    <h3 cusTitle>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h3>
     <button customButton cusVariant="text" cusType="secondary" class="close" (click)="close()">&times;</button>
   </header>
 
@@ -18,20 +18,12 @@
 
       <div class="control-group">
         <label>Priority *</label>
-        <app-custom-select
-          formControlName="priority"
-          placeholder="Priority"
-          [options]="(priorityOptions$ | async) || []"
-        />
+        <app-custom-select formControlName="priority" placeholder="Priority" [options]="priorityOptions()" />
       </div>
 
       <div class="control-group">
         <label>Status *</label>
-        <app-custom-select
-          formControlName="status"
-          placeholder="Task Status"
-          [options]="(statusOptions$ | async) || []"
-        />
+        <app-custom-select formControlName="status" placeholder="Task Status" [options]="statusOptions()" />
       </div>
     </fieldset>
   } @else {

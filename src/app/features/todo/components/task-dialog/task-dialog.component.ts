@@ -1,19 +1,20 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TaskStatuses } from '@common/constants/task-statuses.constant';
+import { TaskPriorities } from '@common/constants/task-priorities.constant';
 import { ToastService } from '@shared/toast.service';
-import { StaticDataService } from '@shared/services/static-data.service';
-import { SectionTitleDirective } from '@shared/directives/section-title.directive';
-import { AsyncPipe } from '@angular/common';
+import { transformValueToSelectItems } from '@shared/converters/transform-value-to-select-items.converter';
 import {
   Button,
   CustomSelectComponent,
-  InputDirective,
+  InputComponent,
   SelectItemModel,
   SkeletonComponent,
-  TextAreaComponent
+  TextAreaComponent,
+  TypographyComponent
 } from '@ui';
-import { finalize, Observable, shareReplay } from 'rxjs';
+import { finalize } from 'rxjs';
 
 import { TaskModel } from '../../model/task.model';
 import { TaskDialogService } from './services/task-dialog.service';
@@ -25,20 +26,19 @@ import { TaskDialogService } from './services/task-dialog.service';
     ReactiveFormsModule,
     TextAreaComponent,
     Button,
-    InputDirective,
+    InputComponent,
     CustomSelectComponent,
-    AsyncPipe,
     SkeletonComponent,
-    SectionTitleDirective
+    TypographyComponent
   ],
-  providers: [TaskDialogService, StaticDataService]
+  providers: [TaskDialogService]
 })
 export class TaskDialogComponent implements OnInit {
   readonly #isFetching = signal(false);
   readonly #isLoading = signal(false);
 
-  protected priorityOptions$: Observable<SelectItemModel[]>;
-  protected statusOptions$: Observable<SelectItemModel[]>;
+  protected priorityOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskPriorities));
+  protected statusOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskStatuses));
   protected readonly isLoading = this.#isLoading.asReadonly();
   protected readonly isFetching = this.#isFetching.asReadonly();
   protected readonly form = new FormGroup({
@@ -61,11 +61,8 @@ export class TaskDialogComponent implements OnInit {
     private service: TaskDialogService,
     private dialogRef: DialogRef<Nullable<TaskModel>>,
     private toastService: ToastService,
-    private staticDataService: StaticDataService,
     @Inject(DIALOG_DATA) public taskId: string
   ) {
-    this.priorityOptions$ = this.staticDataService.getListPriority().pipe(shareReplay(1));
-    this.statusOptions$ = this.staticDataService.getListTaskStatus().pipe(shareReplay(1));
     this.form.controls.id.setValue(taskId);
   }
 

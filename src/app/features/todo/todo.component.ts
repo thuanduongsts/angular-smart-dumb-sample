@@ -2,11 +2,9 @@ import { Dialog } from '@angular/cdk/dialog';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Button, IconComponent, IconEnum, SelectItemModel, SkeletonComponent } from '@ui';
-import { PageTitleDirective } from '@shared/directives/page-title.directive';
+import { Button, IconComponent, IconEnum, SelectItemModel, TypographyComponent } from '@ui';
+import { TaskStatuses } from '@common/constants/task-statuses.constant';
 import { ToastService } from '@shared/toast.service';
-import { StaticDataService } from '@shared/services/static-data.service';
-import { AsyncPipe } from '@angular/common';
 import { DirectionOptions } from '@shared/constant/sort-options.constant';
 import {
   BehaviorSubject,
@@ -18,8 +16,6 @@ import {
   finalize,
   map,
   mergeMap,
-  Observable,
-  shareReplay,
   Subject,
   switchMap,
   tap
@@ -32,22 +28,14 @@ import { FilterModel } from './components/filter/filter.model';
 import { FilterComponent } from './components/filter/filter.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
+import { TaskListComponent } from './components/task-list/task-list.component';
 
 @Component({
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    Button,
-    IconComponent,
-    PageTitleDirective,
-    TaskComponent,
-    SkeletonComponent,
-    FilterComponent,
-    AsyncPipe
-  ],
-  providers: [TodoService, StaticDataService]
+  imports: [FormsModule, Button, IconComponent, TaskComponent, FilterComponent, TaskListComponent, TypographyComponent],
+  providers: [TodoService]
 })
 export class TodoComponent implements OnInit {
   readonly #triggerFetchTasks$ = new BehaviorSubject<void>(undefined);
@@ -56,10 +44,10 @@ export class TodoComponent implements OnInit {
   readonly #tasks = signal<TaskModel[]>([]);
   readonly #isLoading = signal<boolean>(true);
 
-  protected readonly statusOptions$: Observable<SelectItemModel[]>;
   protected readonly IconEnum = IconEnum;
+  protected readonly statusOptions = signal<TaskStatus[]>(TaskStatuses).asReadonly();
+  protected readonly sortOptions = signal<SelectItemModel[]>(DirectionOptions).asReadonly();
   protected readonly tasks = this.#tasks.asReadonly();
-  protected readonly sortOptions = signal<SelectItemModel[]>(DirectionOptions);
   protected readonly isLoading = this.#isLoading.asReadonly();
   protected readonly filter = toSignal(this.#filter$, { initialValue: DefaultFilter });
 
@@ -67,11 +55,8 @@ export class TodoComponent implements OnInit {
     private destroyRef: DestroyRef,
     private dialog: Dialog,
     private todoService: TodoService,
-    private toastService: ToastService,
-    private staticDataService: StaticDataService
-  ) {
-    this.statusOptions$ = this.staticDataService.getListTaskStatus().pipe(shareReplay(1));
-  }
+    private toastService: ToastService
+  ) {}
 
   public ngOnInit(): void {
     this.#setupTasks();

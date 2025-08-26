@@ -1,4 +1,4 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { LoadingIconComponent } from '../icon/loading-icon/loading-icon.component';
 import { ButtonVariant } from './button-variant.model';
@@ -13,10 +13,8 @@ import { ButtonVariant } from './button-variant.model';
   `,
   styleUrl: './button.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   imports: [LoadingIconComponent],
   host: {
-    class: 'cus-btn',
     '[class.cus-btn-primary]': `cusType() === 'primary'`,
     '[class.cus-btn-secondary]': `cusType() === 'secondary'`,
     '[class.cus-btn-success]': `cusType() === 'success'`,
