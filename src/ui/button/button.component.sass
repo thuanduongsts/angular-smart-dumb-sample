@@ -17,6 +17,7 @@ $interact-state-background-list: (primary: colors.$p-primary-800, secondary: col
   cursor: pointer
   border-radius: 4px
   border: 0
+  background-color: transparent
 
   &:disabled
     cursor: not-allowed
@@ -52,6 +53,7 @@ $interact-state-background-list: (primary: colors.$p-primary-800, secondary: col
       &:focus
         background-color: map.get($button-list, $b-name)
         color: white
+
 
   @each $b-name, $b-value in $button-list
     &.cus-btn-#{$b-name}.text
