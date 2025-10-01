@@ -1,0 +1,33 @@
+@use 'typography' as *
+@use 'colors'
+
+:host
+  @extend %label-md
+  color: white
+  padding: 6px 8px
+  display: inline-flex
+  gap: 6px
+  border-radius: 6px
+
+  &.tag-has-custom-color
+    border-color: transparent
+
+  &.tag-status-default
+    color: colors.$primary-text
+    border: 1px solid colors.$outlined
+    background-color: transparent
+
+  &.tag-status-primary
+    background-color: colors.$p-primary-500
+
+  &.tag-status-secondary
+    background-color: colors.$p-secondary-500
+
+  &.tag-status-success
+    background-color: colors.$p-success-500
+
+  &.tag-status-warning
+    background-color: colors.$p-warning-500
+
+  &.tag-status-danger
+    background-color: colors.$p-danger-500

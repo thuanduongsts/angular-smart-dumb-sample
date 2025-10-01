@@ -17,5 +17,6 @@
     <app-icon [name]="IconEnum.PRIORITY_FLAG" />
     <span>{{ task().priority }}</span>
   </section>
-  <span appTaskStatus [status]="task().status">{{ task().status }}</span>
+
+  <app-tag [color]="tagColor()"> {{ task().status }} </app-tag>
 </footer>
