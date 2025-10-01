@@ -14,4 +14,7 @@ export * from './custom-select/directives/custom-selected-values.directive';
 export * from './custom-select/custom-select.component';
 export { SelectItemModel } from './custom-select/models/select-item.model';
 
+export { TagStatusColorModel } from './tag/models/tag-status-color.model';
+export * from './tag/tag.component';
+
 export * from './typography/typography.component';
