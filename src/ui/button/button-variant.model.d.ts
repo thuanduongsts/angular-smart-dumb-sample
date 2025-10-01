@@ -1,1 +1,3 @@
-export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+import { StatusColor } from '../core/color/color';
+
+export type ButtonVariant = Omit<StatusColor, 'default'>;
