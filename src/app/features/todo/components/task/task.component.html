@@ -1,22 +1,29 @@
-<header>
-  <h4 cusTitle (click)="edit()">{{ task().title }}</h4>
-  <app-icon role="button" class="delete-icon" [name]="IconEnum.DELETE" (click)="remove()" />
-</header>
+<app-card>
+  <app-card-header>
+    <app-card-title>
+      {{ title() }}
+      <app-tag [color]="tagColor()"> {{ status() }} </app-tag>
+    </app-card-title>
+    <app-card-sub-title>
+      <span taskPriority [priority]="priority()">
+        {{ priority() }}
+      </span>
+    </app-card-sub-title>
+  </app-card-header>
 
-<p cusParagraph>{{ task().description }}</p>
+  <app-card-content>
+    <p cusParagraph>{{ description() }}</p>
+  </app-card-content>
 
-<footer>
-  <section
-    class="priority"
-    [ngClass]="{
-      high: task().priority == 'High',
-      medium: task().priority == 'Medium',
-      low: task().priority == 'Low'
-    }"
-  >
-    <app-icon [name]="IconEnum.PRIORITY_FLAG" />
-    <span>{{ task().priority }}</span>
-  </section>
+  <app-card-footer>
+    <button class="btn-update" customButton cusVariant="outline" (click)="edit()">
+      <app-icon [name]="IconEnum.EDIT" />
+      Edit
+    </button>
 
-  <app-tag [color]="tagColor()"> {{ task().status }} </app-tag>
-</footer>
+    <button class="btn-remove" customButton cusType="danger" cusVariant="outline" (click)="remove()">
+      <app-icon [name]="IconEnum.DELETE" />
+      Delete
+    </button>
+  </app-card-footer>
+</app-card>
