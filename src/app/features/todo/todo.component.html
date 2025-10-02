@@ -14,6 +14,13 @@
 
 <app-task-list [isLoading]="isLoading()">
   @for (task of tasks(); track task.id) {
-    <app-task [task]="task" (taskEdit)="openTaskDialog(task.id)" (taskRemove)="removeTask(task)" />
+    <app-task
+      [title]="task.title"
+      [description]="task.description"
+      [priority]="task.priority"
+      [status]="task.status"
+      (onEdit)="openTaskDialog(task.id)"
+      (onRemove)="removeTask(task)"
+    />
   }
 </app-task-list>

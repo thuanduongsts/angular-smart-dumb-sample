@@ -1,52 +1,30 @@
 @use 'colors'
 @use 'shadows'
 
-:host
-  display: flex
-  box-shadow: shadows.$shadow-1
-  border-radius: 8px
-  background: colors.$on-secondary-container
-  flex-direction: column
-  gap: 4px
-  width: 100%
-  padding: 24px
-  color: colors.$primary-text
+app-card
+  app-tag
+    margin-left: 24px
 
-  header
+  app-card-footer
     display: flex
-    justify-content: space-between
+    gap: 24px
 
-    h4
-      display: inline-flex
-      column-gap: 8px
-      margin: 0
+    button
+      height: 40px
+      width: max-content
 
-      &:hover
-        cursor: pointer
-        text-decoration: underline
+    .btn-remove
+      &:hover app-icon,
+      &:focus app-icon
+        background-color: white
 
-    .delete-icon
-      cursor: pointer
-      background: colors.$danger
+      app-icon
+        background-color: colors.$danger
 
-  p
-    margin-top: 0
+    .btn-update
+      &:hover app-icon,
+      &:focus app-icon
+        background-color: white
 
-  footer
-    display: flex
-    justify-content: space-between
-    align-items: center
-
-    .priority
-      display: flex
-      align-items: center
-      gap: 4px
-
-    .priority.high  app-icon
-      background: colors.$danger
-
-    .priority.medium  app-icon
-      background: colors.$warning
-
-    .priority.low  app-icon
-      background: colors.$success
+      app-icon
+        background-color: colors.$primary
