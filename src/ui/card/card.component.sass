@@ -1,0 +1,17 @@
+@use 'colors'
+@use 'shadows'
+
+article
+  box-shadow: shadows.$shadow-1
+  border-radius: 8px
+  background: white
+  padding: 24px
+  color: colors.$primary-text
+  overflow: hidden
+
+  &:hover
+   background: colors.$p-secondary-100
+
+  footer
+    border-top: 1px solid colors.$outlined-variant
+    padding-top: 16px
