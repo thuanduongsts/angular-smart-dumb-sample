@@ -17,4 +17,12 @@ export { SelectItemModel } from './custom-select/models/select-item.model';
 export { TagStatusColorModel } from './tag/models/tag-status-color.model';
 export * from './tag/tag.component';
 
+export * from './card/card.module';
+export * from './card/card-header/card-header.component';
+export * from './card/card-header/card-title/card-title.component';
+export * from './card/card-header/card-sub-title/card-sub-title.component';
+export * from './card/card-content/card-content.component';
+export * from './card/card-footer/card-footer.component';
+export * from './card/card.component';
+
 export * from './typography/typography.component';
