@@ -2,7 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Button, IconComponent, IconEnum, SelectItemModel, TypographyComponent } from '@ui';
+import { Button, IconComponent, IconEnum, SelectItemModel, SkeletonComponent, TypographyComponent } from '@ui';
 import { TaskStatuses } from '@common/constants/task-statuses.constant';
 import { ToastService } from '@shared/toast.service';
 import { DirectionOptions } from '@shared/constant/sort-options.constant';
@@ -28,7 +28,7 @@ import { FilterModel } from './components/filter/filter.model';
 import { FilterComponent } from './components/filter/filter.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
-import { TaskListComponent } from './components/task-list/task-list.component';
+import { ListViewContainerComponent } from '@features/todo/components/list-view-container/list-view-container.component';
 
 @Component({
   templateUrl: './todo.component.html',
@@ -40,9 +40,10 @@ import { TaskListComponent } from './components/task-list/task-list.component';
     IconComponent,
     TaskComponent,
     FilterComponent,
-    TaskListComponent,
+    ListViewContainerComponent,
     TypographyComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SkeletonComponent
   ],
   providers: [TodoService]
 })

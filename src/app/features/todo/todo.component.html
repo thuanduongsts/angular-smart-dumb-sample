@@ -9,7 +9,7 @@
   </button>
 </section>
 
-<app-task-list [isLoading]="isLoading()">
+<app-list-view-container>
   @for (task of tasks(); track task.id) {
     <app-task
       [title]="task.title"
@@ -20,4 +20,10 @@
       (onRemove)="removeTask(task)"
     />
   }
-</app-task-list>
+
+  @if (isLoading()) {
+    @for (_ of [].constructor(2); track $index) {
+      <app-skeleton height="235px" />
+    }
+  }
+</app-list-view-container>
