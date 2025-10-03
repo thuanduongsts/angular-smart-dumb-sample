@@ -1,21 +1,19 @@
-import { Injectable, Injector } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
+import { Injectable } from '@angular/core';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ToastMessageComponent } from './toast-message.component';
+
+import { ToastComponent } from './toast.component';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-  constructor(
-    private overlay: Overlay,
-    private injector: Injector
-  ) {}
+  constructor(private overlay: Overlay) {}
 
-  show(message: string, duration = 3000) {
+  public show(message: string, duration = 3000): void {
     const overlayRef = this.createOverlay();
-    const toastPortal = new ComponentPortal(ToastMessageComponent);
+    const toastPortal = new ComponentPortal(ToastComponent);
     const toastRef = overlayRef.attach(toastPortal);
 
-    toastRef.instance.message = message;
+    toastRef.setInput('message', message);
 
     setTimeout(() => overlayRef.dispose(), duration);
   }

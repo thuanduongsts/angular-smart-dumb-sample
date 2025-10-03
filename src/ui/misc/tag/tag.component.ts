@@ -9,8 +9,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import { isStatusColor } from '../core/color/color';
-import { TagStatusColorModel } from './models/tag-status-color.model';
+import { isStatusColor } from '../../core/color/color';
+import { TagStatusColorModel } from '../../misc/tag/models/tag-status-color.model';
 
 @Component({
   selector: 'app-tag',

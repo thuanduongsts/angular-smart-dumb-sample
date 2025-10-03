@@ -1,15 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-toast-message',
-  template: `
-    <div class="toast">
-      {{ message }}
-    </div>
-  `,
+  selector: 'app-toast',
+  template: ` <section class="toast">{{ message() }}</section> `,
   styles: [
     `
-      .toast 
+      .toast
         background: white
         color: black
         padding: 12px 20px
@@ -20,6 +16,6 @@ import { Component, Input } from '@angular/core';
     `
   ]
 })
-export class ToastMessageComponent {
-  @Input() message = '';
+export class ToastComponent {
+  public readonly message = input<string>();
 }

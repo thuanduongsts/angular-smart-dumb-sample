@@ -5,7 +5,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { TaskApi } from '@core/task.api';
 import { WINDOW } from '@common/tokens/window.constant';
 
-import { ToastService } from './shared/toast.service';
 import { routes } from './app.routes';
 
 function windowFactory(platformId: Record<string, unknown>): Window {
@@ -18,7 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     TaskApi,
-    ToastService,
     {
       provide: WINDOW,
       useFactory: windowFactory,

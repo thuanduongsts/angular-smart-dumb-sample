@@ -16,6 +16,7 @@ import {
   signal,
   viewChild
 } from '@angular/core';
+import { ResponsiveScreen } from '@common/constants/responsive-screen.constant';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromEvent } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -28,7 +29,6 @@ import { CarouselPrevButtonDirective } from './directives/carousel-prev-button.d
 import { CarouselItemDirective } from './directives/carousel-item.directive';
 import { ScrollTrackerDirective } from '../directives/scroll-tracker.directive';
 import { WINDOW } from '@common/tokens/window.constant';
-import { ResponsiveScreen } from '@shared/constant/responsive-screen.constant';
 
 @Component({
   selector: 'app-carousel',

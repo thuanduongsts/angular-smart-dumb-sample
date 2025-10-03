@@ -1,0 +1,44 @@
+:host
+  display: contents
+
+input[type="checkbox"]
+  display: none
+
+label
+  display: flex
+  align-items: center
+  cursor: pointer
+  user-select: none
+  font-size: 16px
+
+  span
+    width: 20px
+    height: 20px
+    border: 2px solid #888
+    border-radius: 4px
+    margin-right: 10px
+    position: relative
+    transition: all 0.2s ease
+
+  &:hover span
+    border-color: #555
+
+  span::after
+    content: ''
+    position: absolute
+    width: 4px
+    height: 10px
+    border: solid white
+    border-width: 0 2px 2px 0
+    top: 2px
+    left: 6px
+    transform: rotate(45deg)
+    opacity: 0
+    transition: opacity 0.2s ease
+
+  &.checked > span
+    background-color: #1A56DB
+    border-color: #1A56DB
+
+  &.checked > span::after
+    opacity: 1

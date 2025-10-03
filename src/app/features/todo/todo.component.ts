@@ -2,10 +2,17 @@ import { Dialog } from '@angular/cdk/dialog';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Button, IconComponent, IconEnum, SelectItemModel, SkeletonComponent, TypographyComponent } from '@ui';
+import {
+  Button,
+  IconComponent,
+  IconEnum,
+  SelectItemModel,
+  SkeletonComponent,
+  ToastService,
+  TypographyComponent
+} from '@ui';
 import { TaskStatuses } from '@common/constants/task-statuses.constant';
-import { ToastService } from '@shared/toast.service';
-import { DirectionOptions } from '@shared/constant/sort-options.constant';
+import { SortDirectionOptions } from '@shared/constant/sort-options.constant';
 import {
   BehaviorSubject,
   catchError,
@@ -21,6 +28,7 @@ import {
   switchMap
 } from 'rxjs';
 
+import { ListViewContainerComponent } from './components/list-view-container/list-view-container.component';
 import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
 import { DefaultFilter } from './constants/default-filter.constant';
 import { TaskComponent } from './components/task/task.component';
@@ -28,7 +36,6 @@ import { FilterModel } from './components/filter/filter.model';
 import { FilterComponent } from './components/filter/filter.component';
 import { TaskModel } from './model/task.model';
 import { TodoService } from './services/todo.service';
-import { ListViewContainerComponent } from '@features/todo/components/list-view-container/list-view-container.component';
 
 @Component({
   templateUrl: './todo.component.html',
@@ -56,7 +63,7 @@ export class TodoComponent implements OnInit {
   protected readonly IconEnum = IconEnum;
   protected readonly filterControl = new FormControl<FilterModel>(DefaultFilter, { nonNullable: true });
   protected readonly statusOptions = signal<TaskStatus[]>(TaskStatuses).asReadonly();
-  protected readonly sortOptions = signal<SelectItemModel[]>(DirectionOptions).asReadonly();
+  protected readonly sortOptions = signal<SelectItemModel[]>(SortDirectionOptions).asReadonly();
   protected readonly tasks = this.#tasks.asReadonly();
   protected readonly isLoading = this.#isLoading.asReadonly();
 

@@ -7,9 +7,8 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, contentChild, forwardRef, inject } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { StringJoinPipe } from '@shared/pipes/string-join.pipe';
 
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '../../icon/icon.component';
 import { CustomOptionDirective } from './directives/custom-option.directive';
 import { CustomSelectedValuesDirective } from './directives/custom-selected-values.directive';
 import { SelectPanelComponent } from './components/select-panel/select-panel.component';
@@ -21,7 +20,6 @@ import { BaseSelectDirective } from './directives/base-select.directive';
     ReactiveFormsModule,
     IconComponent,
     FormsModule,
-    StringJoinPipe,
     SelectPanelComponent,
     CdkOverlayOrigin,
     CdkConnectedOverlay,

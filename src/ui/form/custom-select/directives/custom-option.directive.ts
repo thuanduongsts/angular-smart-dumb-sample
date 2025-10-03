@@ -1,6 +1,6 @@
 import { Directive, TemplateRef } from '@angular/core';
 
-import { SelectItemModel } from 'src/ui/custom-select/models/select-item.model';
+import { SelectItemModel } from '../models/select-item.model';
 
 @Directive({
   selector: '[appCustomOption]'
