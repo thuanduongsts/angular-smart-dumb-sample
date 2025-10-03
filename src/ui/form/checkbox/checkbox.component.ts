@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
+import { BaseControlAccessor } from '../../directives/base-control-accessor.directive';
 
 @Component({
   selector: 'app-checkbox',

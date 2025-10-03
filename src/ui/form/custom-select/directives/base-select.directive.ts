@@ -18,10 +18,10 @@ import { FormControl } from '@angular/forms';
 import { combineLatest, fromEvent } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 
-import { SelectPanelComponent } from '../components/select-panel/select-panel.component';
+import { BaseControlAccessor } from '../../../directives/base-control-accessor.directive';
 import { SelectItemModel } from '../models/select-item.model';
-import { IconEnum } from '../../icon/icon.enum';
-import { BaseControlAccessor } from '../../directives/base-control-accessor.directive';
+import { IconEnum } from '../../../icon/icon.enum';
+import { SelectPanelComponent } from '../components/select-panel/select-panel.component';
 
 @Directive({})
 export abstract class BaseSelectDirective extends BaseControlAccessor<ID[], ID | ID[]> implements OnInit {
@@ -41,6 +41,7 @@ export abstract class BaseSelectDirective extends BaseControlAccessor<ID[], ID |
   protected readonly focusIndex = this.innerFocusedIndex.asReadonly();
   protected readonly filteredOptions = this.innerFilteredOptions.asReadonly();
   protected readonly displaySelectedValues = computed(() => this.selectedOptions().map(it => it.name));
+  protected readonly displaySelectedText = computed(() => this.displaySelectedValues().join(', '));
   protected readonly selectPanelComponent: Signal<Maybe<SelectPanelComponent>> = viewChild(SelectPanelComponent);
   protected readonly searchElement: Signal<Maybe<ElementRef<HTMLInputElement>>> = viewChild('searchElement', {
     read: ElementRef

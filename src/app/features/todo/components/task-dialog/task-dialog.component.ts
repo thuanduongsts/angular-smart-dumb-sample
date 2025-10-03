@@ -3,7 +3,6 @@ import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskStatuses } from '@common/constants/task-statuses.constant';
 import { TaskPriorities } from '@common/constants/task-priorities.constant';
-import { ToastService } from '@shared/toast.service';
 import { transformValueToSelectItems } from '@shared/converters/transform-value-to-select-items.converter';
 import {
   Button,
@@ -12,6 +11,7 @@ import {
   SelectItemModel,
   SkeletonComponent,
   TextAreaComponent,
+  ToastService,
   TypographyComponent
 } from '@ui';
 import { finalize } from 'rxjs';

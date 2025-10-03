@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input, numberAttribute } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { BaseControlAccessor } from '../directives/base-control-accessor.directive';
-import { InputComponent } from '../input/input.component';
+import { BaseControlAccessor } from '../../directives/base-control-accessor.directive';
+import { InputComponent } from '../../form/input/input.component';
 
 @Component({
   selector: 'app-text-area',

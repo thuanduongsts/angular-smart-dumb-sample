@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, ElementRef, input, output, Signal, 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { IsSelectedPipe } from '../../pipes/is-selected.pipe';
 import { CheckboxComponent } from '../../../checkbox/checkbox.component';
+import { IsSelectedPipe } from '../../pipes/is-selected.pipe';
 import { CustomOptionDirective } from '../../directives/custom-option.directive';
 import { SelectItemModel } from '../../models/select-item.model';
 
