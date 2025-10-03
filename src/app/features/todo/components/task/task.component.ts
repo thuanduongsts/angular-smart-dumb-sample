@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { TaskPriorityDirective } from '@shared/directives/task-priority.directive';
 import {
   Button,
   CardModule,
@@ -9,6 +8,8 @@ import {
   TagStatusColorModel,
   TypographyComponent
 } from '@ui';
+
+import { TaskPriorityDirective } from '../../directives/task-priority.directive';
 
 @Component({
   selector: 'app-task',
