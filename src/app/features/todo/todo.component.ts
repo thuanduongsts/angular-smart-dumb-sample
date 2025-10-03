@@ -1,7 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Button, IconComponent, IconEnum, SelectItemModel, TypographyComponent } from '@ui';
 import { TaskStatuses } from '@common/constants/task-statuses.constant';
 import { ToastService } from '@shared/toast.service';
@@ -16,9 +16,9 @@ import {
   finalize,
   map,
   mergeMap,
+  startWith,
   Subject,
-  switchMap,
-  tap
+  switchMap
 } from 'rxjs';
 
 import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
@@ -34,22 +34,30 @@ import { TaskListComponent } from './components/task-list/task-list.component';
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, Button, IconComponent, TaskComponent, FilterComponent, TaskListComponent, TypographyComponent],
+  imports: [
+    FormsModule,
+    Button,
+    IconComponent,
+    TaskComponent,
+    FilterComponent,
+    TaskListComponent,
+    TypographyComponent,
+    ReactiveFormsModule
+  ],
   providers: [TodoService]
 })
 export class TodoComponent implements OnInit {
   readonly #triggerFetchTasks$ = new BehaviorSubject<void>(undefined);
   readonly #removeTask$ = new Subject<TaskModel>();
-  readonly #filter$ = new BehaviorSubject<FilterModel>(DefaultFilter);
   readonly #tasks = signal<TaskModel[]>([]);
   readonly #isLoading = signal<boolean>(true);
 
   protected readonly IconEnum = IconEnum;
+  protected readonly filterControl = new FormControl<FilterModel>(DefaultFilter, { nonNullable: true });
   protected readonly statusOptions = signal<TaskStatus[]>(TaskStatuses).asReadonly();
   protected readonly sortOptions = signal<SelectItemModel[]>(DirectionOptions).asReadonly();
   protected readonly tasks = this.#tasks.asReadonly();
   protected readonly isLoading = this.#isLoading.asReadonly();
-  protected readonly filter = toSignal(this.#filter$, { initialValue: DefaultFilter });
 
   public constructor(
     private destroyRef: DestroyRef,
@@ -79,18 +87,17 @@ export class TodoComponent implements OnInit {
     this.#removeTask$.next(task);
   }
 
-  protected handleFilterChange(data: FilterModel): void {
-    this.#filter$.next(data);
-  }
-
   #setupTasks(): void {
-    combineLatest([this.#filter$, this.#triggerFetchTasks$])
+    combineLatest([
+      this.filterControl.valueChanges.pipe(startWith(this.filterControl.getRawValue())),
+      this.#triggerFetchTasks$
+    ])
       .pipe(
-        tap(() => {
+        switchMap(([filter]) => {
           this.#tasks.set([]);
           this.#isLoading.set(true);
+          return this.todoService.getTasks(filter).pipe(finalize(() => this.#isLoading.set(false)));
         }),
-        switchMap(([filter]) => this.todoService.getTasks(filter).pipe(finalize(() => this.#isLoading.set(false)))),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
