@@ -2,6 +2,8 @@ export { Button } from './button/button.component';
 export { ButtonVariant } from './button/button-variant.model';
 export { InputComponent } from './input/input.component';
 
+export { BaseControlAccessor } from './directives/base-control-accessor.directive';
+
 export * from './icon/icon.component';
 export * from './icon/icon.enum';
 
