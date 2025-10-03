@@ -2,10 +2,12 @@
 
 <app-filter [sortOptions]="sortOptions()" [statusOptions]="statusOptions()" [formControl]="filterControl" />
 
-<button customButton (click)="openTaskDialog()">
-  <app-icon [name]="IconEnum.PLUS" />
-  New task
-</button>
+<section class="action-toolbar">
+  <button customButton (click)="openTaskDialog()">
+    <app-icon [name]="IconEnum.PLUS" />
+    New task
+  </button>
+</section>
 
 <app-task-list [isLoading]="isLoading()">
   @for (task of tasks(); track task.id) {
