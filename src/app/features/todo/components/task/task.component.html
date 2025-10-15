@@ -5,9 +5,7 @@
       <app-tag [color]="tagColor()"> {{ status() }} </app-tag>
     </app-card-title>
     <app-card-sub-title>
-      <span taskPriority [priority]="priority()">
-        {{ priority() }}
-      </span>
+      <span [taskPriority]="priority()"> {{ priority() }} </span>
     </app-card-sub-title>
   </app-card-header>
 

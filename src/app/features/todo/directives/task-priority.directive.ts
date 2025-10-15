@@ -16,7 +16,7 @@ import { IconComponent, IconEnum } from '@ui';
 })
 export class TaskPriorityDirective implements OnChanges {
   public readonly hasIcon = input<boolean, StrOrBool>(true, { transform: booleanAttribute });
-  public readonly priority = input.required<TaskPriority>();
+  public readonly taskPriority = input.required<TaskPriority>();
 
   public constructor(
     private el: ElementRef<HTMLElement>,
@@ -52,11 +52,11 @@ export class TaskPriorityDirective implements OnChanges {
   }
 
   #getPriorityHexColor(): string {
-    if (this.priority() === 'High') {
+    if (this.taskPriority() === 'High') {
       return '#C81E1E';
     }
 
-    if (this.priority() === 'Medium') {
+    if (this.taskPriority() === 'Medium') {
       return '#9F580A';
     }
 
