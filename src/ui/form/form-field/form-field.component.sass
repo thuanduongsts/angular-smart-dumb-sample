@@ -1,0 +1,12 @@
+@use 'colors'
+@use 'typography' as *
+
+:host
+  display: flex
+  flex-direction: column
+  gap: 8px
+  margin-bottom: 24px
+
+  .message
+    @extend %body-sm
+    color: colors.$danger

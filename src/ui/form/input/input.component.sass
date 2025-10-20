@@ -20,5 +20,10 @@
   &:focus
     border: 2px solid colors.$p-primary-900
 
-  &.error
-    border: 1px solid colors.$danger
+  &.ng-invalid.ng-touched
+    border-color: colors.$danger
+    color: colors.$danger
+
+    &::placeholder
+      color: colors.$danger
+

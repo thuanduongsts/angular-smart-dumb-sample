@@ -1,0 +1,13 @@
+@use 'colors'
+@use 'typography' as *
+
+.field-required::before
+  content: '*'
+  color: colors.$danger
+  padding: 4px
+
+label
+  @extend %label-lg
+
+  &.invalid
+    color: colors.$danger

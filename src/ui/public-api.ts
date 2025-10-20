@@ -13,6 +13,8 @@ export { SelectItemModel } from './form/custom-select/models/select-item.model';
 export * from './form/custom-select/directives/custom-option.directive';
 export * from './form/custom-select/directives/custom-selected-values.directive';
 export * from './form/custom-select/custom-select.component';
+export * from './form/form-field/form-field.component';
+export * from './form/form-field/form-label/form-label.component';
 
 export { SkeletonComponent } from './misc/skeleton/skeleton.component';
 export { TagStatusColorModel } from './misc/tag/models/tag-status-color.model';

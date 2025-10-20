@@ -1,0 +1,16 @@
+@use 'colors'
+
+:host
+  textarea
+    resize: none
+
+    &:focus
+        border-width: 2px
+
+  &.ng-invalid.ng-touched
+    textarea
+      border-color: colors.$danger
+      color: colors.$danger
+
+    textarea::placeholder
+      color: colors.$danger

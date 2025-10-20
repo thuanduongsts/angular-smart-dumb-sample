@@ -20,10 +20,10 @@ $disable-color: var(--app-select-disabled-trigger-color);
     }
   }
 
-  &.invalid,
-  &.invalid:focus,
-  &.invalid:focus-visible,
-  &.invalid .select-trigger .placeholder {
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched:focus,
+  &.ng-invalid.ng-touched:focus-visible,
+  &.ng-invalid.ng-touched .select-trigger .placeholder {
     outline-color: colors.$danger;
     color: colors.$danger;
 
