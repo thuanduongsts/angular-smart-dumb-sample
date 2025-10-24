@@ -7,6 +7,8 @@ import { transformValueToSelectItems } from '@shared/converters/transform-value-
 import {
   Button,
   CustomSelectComponent,
+  FormFieldComponent,
+  FormLabelComponent,
   InputComponent,
   SelectItemModel,
   SkeletonComponent,
@@ -29,14 +31,18 @@ import { TaskDialogService } from './services/task-dialog.service';
     InputComponent,
     CustomSelectComponent,
     SkeletonComponent,
-    TypographyComponent
+    TypographyComponent,
+    FormFieldComponent,
+    FormLabelComponent
   ],
   providers: [TaskDialogService]
 })
 export class TaskDialogComponent implements OnInit {
   readonly #isFetching = signal(false);
   readonly #isLoading = signal(false);
+  readonly #isEditMode = signal(false);
 
+  protected isEditMode = this.#isEditMode.asReadonly();
   protected priorityOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskPriorities));
   protected statusOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskStatuses));
   protected readonly isLoading = this.#isLoading.asReadonly();
@@ -49,10 +55,6 @@ export class TaskDialogComponent implements OnInit {
     priority: new FormControl<TaskPriority>('Medium', { nonNullable: true })
   });
 
-  get isEdit(): boolean {
-    return Boolean(this.taskId);
-  }
-
   get formValue(): TaskModel {
     return this.form.getRawValue();
   }
@@ -64,10 +66,11 @@ export class TaskDialogComponent implements OnInit {
     @Inject(DIALOG_DATA) public taskId: string
   ) {
     this.form.controls.id.setValue(taskId);
+    this.#isEditMode.set(Boolean(taskId));
   }
 
   public ngOnInit(): void {
-    if (this.isEdit) {
+    if (this.#isEditMode()) {
       this.#fetchDetails();
     }
   }
@@ -78,11 +81,14 @@ export class TaskDialogComponent implements OnInit {
     }
 
     this.#isLoading.set(true);
-    const submitRequest$ = this.isEdit ? this.service.update(this.formValue) : this.service.create(this.formValue);
+    const submitRequest$ = this.isEditMode()
+      ? this.service.update(this.formValue)
+      : this.service.create(this.formValue);
+
     submitRequest$.pipe(finalize(() => this.#isLoading.set(false))).subscribe({
       next: () => {
-        this.toastService.show(this.isEdit ? 'Updated task successfully.' : 'Created task successfully.');
-        if (!this.isEdit) {
+        this.toastService.show(this.isEditMode() ? 'Updated task successfully.' : 'Created task successfully.');
+        if (!this.isEditMode()) {
           this.close();
         }
       },

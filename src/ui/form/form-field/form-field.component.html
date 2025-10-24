@@ -1,0 +1,9 @@
+<ng-content select="app-form-label" />
+
+<div class="input-wrapper">
+  <ng-content />
+</div>
+
+@if (errorMessage()) {
+  <span class="message"> {{ errorMessage() }} </span>
+}

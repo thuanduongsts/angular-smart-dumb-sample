@@ -1,0 +1,9 @@
+<label
+  [for]="for()"
+  [ngClass]="{
+    'field-required': required(),
+    invalid: isControlInvalid()
+  }"
+>
+  <ng-content />
+</label>

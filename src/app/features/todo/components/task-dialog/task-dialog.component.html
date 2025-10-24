@@ -1,39 +1,51 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <header>
-    <h3 cusTitle>{{ isEdit ? 'Edit Task' : 'Add Task' }}</h3>
+    <h2 cusTitle>{{ isEditMode() ? 'Edit Task' : 'Add Task' }}</h2>
     <button customButton cusVariant="text" cusType="secondary" class="close" (click)="close()">&times;</button>
   </header>
 
-  @if (!isFetching()) {
-    <fieldset>
-      <div class="control-group">
-        <label>Title *</label>
-        <input appCusInput formControlName="title" placeholder="Enter title" />
-      </div>
+  <main>
+    @if (!isFetching()) {
+      <fieldset>
+        <app-form-field>
+          <app-form-label required for="title">Title</app-form-label>
+          <input id="title" appCusInput formControlName="title" placeholder="Enter title" />
+        </app-form-field>
 
-      <div class="control-group">
-        <label>Description</label>
-        <app-text-area formControlName="description" placeholder="Enter description" />
-      </div>
+        <app-form-field>
+          <app-form-label for="description">Description</app-form-label>
+          <app-text-area [id]="'description'" formControlName="description" placeholder="Enter description" />
+        </app-form-field>
 
-      <div class="control-group">
-        <label>Priority *</label>
-        <app-custom-select formControlName="priority" placeholder="Priority" [options]="priorityOptions()" />
-      </div>
+        <app-form-field>
+          <app-form-label required id="priority">Priority</app-form-label>
+          <app-custom-select
+            formControlName="priority"
+            placeholder="Priority"
+            ariaDescribedby="priority"
+            [options]="priorityOptions()"
+          />
+        </app-form-field>
 
-      <div class="control-group">
-        <label>Status *</label>
-        <app-custom-select formControlName="status" placeholder="Task Status" [options]="statusOptions()" />
-      </div>
-    </fieldset>
-  } @else {
-    <fieldset>
-      <app-skeleton width="100%" height="70px"></app-skeleton>
-      <app-skeleton width="100%" height="175px"></app-skeleton>
-      <app-skeleton width="100%" height="70px"></app-skeleton>
-      <app-skeleton width="100%" height="70px"></app-skeleton>
-    </fieldset>
-  }
+        <app-form-field>
+          <app-form-label required id="status">Status</app-form-label>
+          <app-custom-select
+            ariaDescribedby="status"
+            formControlName="status"
+            placeholder="Status"
+            [options]="statusOptions()"
+          />
+        </app-form-field>
+      </fieldset>
+    } @else {
+      <fieldset>
+        <app-skeleton width="100%" height="70px"></app-skeleton>
+        <app-skeleton width="100%" height="175px"></app-skeleton>
+        <app-skeleton width="100%" height="70px"></app-skeleton>
+        <app-skeleton width="100%" height="70px"></app-skeleton>
+      </fieldset>
+    }
+  </main>
 
   <footer>
     <button customButton type="submit" [disabled]="form.invalid || isLoading()" [isLoading]="isLoading()">Save</button>
