@@ -1,9 +1,7 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TaskStatuses } from '@common/constants/task-statuses.constant';
-import { TaskPriorities } from '@common/constants/task-priorities.constant';
-import { transformValueToSelectItems } from '@shared/converters/transform-value-to-select-items.converter';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   Button,
   CustomSelectComponent,
@@ -16,9 +14,11 @@ import {
   ToastService,
   TypographyComponent
 } from '@ui';
-import { finalize } from 'rxjs';
+import { finalize, map } from 'rxjs';
 
 import { TaskModel } from '../../model/task.model';
+import { TaskStatuses } from '../../constants/task-statuses.constant';
+import { TaskPriorities } from '../../constants/task-priorities.constant';
 import { TaskDialogService } from './services/task-dialog.service';
 
 @Component({
@@ -42,11 +42,6 @@ export class TaskDialogComponent implements OnInit {
   readonly #isLoading = signal(false);
   readonly #isEditMode = signal(false);
 
-  protected isEditMode = this.#isEditMode.asReadonly();
-  protected priorityOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskPriorities));
-  protected statusOptions = signal<SelectItemModel[]>(transformValueToSelectItems(TaskStatuses));
-  protected readonly isLoading = this.#isLoading.asReadonly();
-  protected readonly isFetching = this.#isFetching.asReadonly();
   protected readonly form = new FormGroup({
     id: new FormControl<ID>('', { nonNullable: true }),
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -54,10 +49,14 @@ export class TaskDialogComponent implements OnInit {
     status: new FormControl<TaskStatus>('Todo', { nonNullable: true }),
     priority: new FormControl<TaskPriority>('Medium', { nonNullable: true })
   });
-
-  get formValue(): TaskModel {
-    return this.form.getRawValue();
-  }
+  protected readonly isEditMode = this.#isEditMode.asReadonly();
+  protected readonly priorityOptions = signal<SelectItemModel[]>(TaskPriorities).asReadonly();
+  protected readonly statusOptions = signal<SelectItemModel[]>(TaskStatuses).asReadonly();
+  protected readonly isLoading = this.#isLoading.asReadonly();
+  protected readonly isFetching = this.#isFetching.asReadonly();
+  protected readonly formValue = toSignal(this.form.valueChanges.pipe(map(() => this.form.getRawValue())), {
+    initialValue: this.form.getRawValue()
+  });
 
   public constructor(
     private service: TaskDialogService,
@@ -82,8 +81,8 @@ export class TaskDialogComponent implements OnInit {
 
     this.#isLoading.set(true);
     const submitRequest$ = this.isEditMode()
-      ? this.service.update(this.formValue)
-      : this.service.create(this.formValue);
+      ? this.service.update(this.formValue())
+      : this.service.create(this.formValue());
 
     submitRequest$.pipe(finalize(() => this.#isLoading.set(false))).subscribe({
       next: () => {
@@ -97,7 +96,7 @@ export class TaskDialogComponent implements OnInit {
   }
 
   protected close(): void {
-    this.dialogRef.close(this.formValue);
+    this.dialogRef.close(this.formValue());
   }
 
   #fetchDetails(): void {
