@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, DestroyRef, forwardRef, input, OnIn
 import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseControlAccessor, CustomSelectComponent, InputComponent, SelectItemModel } from '@ui';
-import { transformValueToSelectItems } from '@shared/converters/transform-value-to-select-items.converter';
 import { debounceTime } from 'rxjs';
 
 import { FilterModel } from './filter.model';
@@ -22,9 +21,7 @@ import { FilterModel } from './filter.model';
   ]
 })
 export class FilterComponent extends BaseControlAccessor<FilterModel> implements OnInit {
-  public readonly statusOptions = input.required<SelectItemModel[], TaskStatus[]>({
-    transform: value => transformValueToSelectItems(value)
-  });
+  public readonly statusOptions = input.required<SelectItemModel[]>();
   public readonly sortOptions = input.required<SelectItemModel[]>();
 
   protected readonly form = new FormGroup({
