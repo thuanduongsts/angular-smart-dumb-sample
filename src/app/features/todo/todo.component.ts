@@ -11,7 +11,6 @@ import {
   ToastService,
   TypographyComponent
 } from '@ui';
-import { TaskStatuses } from '@common/constants/task-statuses.constant';
 import { SortDirectionOptions } from '@shared/constant/sort-options.constant';
 import {
   BehaviorSubject,
@@ -28,6 +27,7 @@ import {
   switchMap
 } from 'rxjs';
 
+import { TaskStatuses } from './constants/task-statuses.constant';
 import { ListViewContainerComponent } from './components/list-view-container/list-view-container.component';
 import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
 import { DefaultFilter } from './constants/default-filter.constant';
@@ -62,7 +62,7 @@ export class TodoComponent implements OnInit {
 
   protected readonly IconEnum = IconEnum;
   protected readonly filterControl = new FormControl<FilterModel>(DefaultFilter, { nonNullable: true });
-  protected readonly statusOptions = signal<TaskStatus[]>(TaskStatuses).asReadonly();
+  protected readonly statusOptions = signal<SelectItemModel[]>(TaskStatuses).asReadonly();
   protected readonly sortOptions = signal<SelectItemModel[]>(SortDirectionOptions).asReadonly();
   protected readonly tasks = this.#tasks.asReadonly();
   protected readonly isLoading = this.#isLoading.asReadonly();
@@ -129,7 +129,10 @@ export class TodoComponent implements OnInit {
         )
       )
       .subscribe({
-        next: id => this.#tasks.update(tasks => tasks.filter(t => t.id !== id))
+        next: id => {
+          this.#tasks.update(tasks => tasks.filter(t => t.id !== id));
+          this.toastService.show('Delete task successfully.');
+        }
       });
   }
 }
